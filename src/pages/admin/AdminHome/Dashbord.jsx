@@ -1,108 +1,15 @@
 import React, { useState } from 'react'
-import './AdminHome.css'
-import { FaBars, FaCross } from 'react-icons/fa';
-export default function AdminHome() {
-    const [isOpen, setIsOpen] = useState(false);
+import './Dashbord.css'
+import { FaBars, FaCross, FaCrosshairs, FaCut, FaWindowClose, FaWindowMinimize } from 'react-icons/fa';
+import AdminNev from '../../../components/AdminNev';
+export default function Dashbord() {
+    
     return (
         <>
             <div className="bg-gray-100 font-family-karla flex sm:flex-row flex-col">
-                <aside className="relative bg-sidebar h-screen w-64 sm:block shadow-xl hidden">
-                    <div className="p-6">
-                        <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+                <AdminNev />
 
-                    </div>
-                    <nav className="text-white text-base font-semibold pt-3">
-                        <a href="index.html" className="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
-                            <i className="fas fa-tachometer-alt mr-3"></i>
-                            Dashboard
-                        </a>
-                        <a href="blank.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                            <i className="fas fa-sticky-note mr-3"></i>
-                            Blank Page
-                        </a>
-                        <a href="tables.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                            <i className="fas fa-table mr-3"></i>
-                            Tables
-                        </a>
-                        <a href="forms.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                            <i className="fas fa-align-left mr-3"></i>
-                            Forms
-                        </a>
-                        <a href="tabs.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                            <i className="fas fa-tablet-alt mr-3"></i>
-                            Tabbed Content
-                        </a>
-                        <a href="calendar.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                            <i className="fas fa-calendar mr-3"></i>
-                            Calendar
-                        </a>
-                    </nav>
-                    <div className="p-6">
-                        <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                            <i className="fas fa-plus mr-3"></i> Logout
-                        </button>
-                    </div>
-                </aside>
-
-
-                <header className="w-full bg-sidebar py-5 px-6 sm:hidden block">
-                    <div className="flex items-center justify-between">
-                        <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-                        <button className="text-white text-3xl focus:outline-none" onClick={()=>setIsOpen(!isOpen)}>
-                            {/* @click="isOpen = !isOpen" */}
-                            {isOpen && <FaBars />}
-                            {!isOpen && <FaCross />}
-                        </button>
-                    </div>
-
-                    <nav className={`flex flex-col pt-4 ${isOpen ? 'flex': 'hidden'}`}>
-                        {/* :className="isOpen ? 'flex': 'hidden'" */}
-                        <a href="index.html" className="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
-                            <i className="fas fa-tachometer-alt mr-3"></i>
-                            Dashboard
-                        </a>
-                        <a href="blank.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-sticky-note mr-3"></i>
-                            Blank Page
-                        </a>
-                        <a href="tables.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-table mr-3"></i>
-                            Tables
-                        </a>
-                        <a href="forms.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-align-left mr-3"></i>
-                            Forms
-                        </a>
-                        <a href="tabs.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-tablet-alt mr-3"></i>
-                            Tabbed Content
-                        </a>
-                        <a href="calendar.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-calendar mr-3"></i>
-                            Calendar
-                        </a>
-                        <a href="#" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-cogs mr-3"></i>
-                            Support
-                        </a>
-                        <a href="#" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-user mr-3"></i>
-                            My Account
-                        </a>
-                        <a href="#" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                            <i className="fas fa-sign-out-alt mr-3"></i>
-                            Sign Out
-                        </a>
-                        <button className="w-full bg-white cta-btn font-semibold py-2 mt-3 rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                            <i className="fas fa-arrow-circle-up mr-3"></i> Upgrade to Pro!
-                        </button>
-                    </nav>
-                    {/* <!-- <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                        <i className="fas fa-plus mr-3"></i> New Report
-                    </button> --> */}
-                </header>
-
-                <div className="w-full overflow-x-hidden border-t flex flex-col">
+                <div className="w-full overflow-x-hidden border-t flex flex-col h-[100vh]">
                     <main className="w-full flex-grow p-6">
                         <h1 className="text-3xl text-black pb-6">Dashboard</h1>
 
@@ -193,10 +100,6 @@ export default function AdminHome() {
                             </div>
                         </div>
                     </main>
-
-                    <footer className="w-full bg-white text-right p-4">
-                        Built by <a target="_blank" href="https://davidgrzyb.com" className="underline">David Grzyb</a>.
-                    </footer>
                 </div>
             </div >
         </>

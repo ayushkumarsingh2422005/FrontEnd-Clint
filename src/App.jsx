@@ -1,12 +1,11 @@
 import Root from './pages/Root'
 import Home from './pages/Home'
 import Login from './pages/admin/Login'
-import Dashboard from './pages/admin/Dashboard'
 import { BrowserRouter , Routes , Route } from 'react-router-dom'
 import Employee from './pages/employee/Employee'
 import PageNotFound from './pages/PageNotFound'
 import ManageItems from './pages/admin/ManageItems'
-import AdminHome from './pages/admin/AdminHome/AdminHome'
+import Dashbord from './pages/admin/AdminHome/Dashbord'
 function App() {
   return (
     <BrowserRouter>
@@ -15,9 +14,8 @@ function App() {
       <Route path='/home' element={<Home />} />
       <Route path='/employee' element={<Employee/>} />
       <Route path='/admin'>
-        <Route path='' element={<AdminHome/>}/>
+        <Route path='' element={<Dashbord/>}/>
         <Route path='login' element={<Login/>}/>
-        <Route path='dashboard' element={<Dashboard/>}/>
         <Route path='items' element={<ManageItems/>}/>
       </Route>
       <Route path='*' element={<PageNotFound/>}/>
