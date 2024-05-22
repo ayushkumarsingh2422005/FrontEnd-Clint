@@ -48,7 +48,7 @@ export default function AdminHome() {
                 <header className="w-full bg-sidebar py-5 px-6 sm:hidden block">
                     <div className="flex items-center justify-between">
                         <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
-                        <button className="text-white text-3xl focus:outline-none" onClick={setIsOpen(!isOpen)}>
+                        <button className="text-white text-3xl focus:outline-none" onClick={()=>setIsOpen(!isOpen)}>
                             {/* @click="isOpen = !isOpen" */}
                             {isOpen && <FaBars />}
                             {!isOpen && <FaCross />}
