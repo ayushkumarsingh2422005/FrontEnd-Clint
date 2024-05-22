@@ -16,7 +16,7 @@ function App() {
       <Route path='/admin'>
         <Route path='' element={<Dashbord/>}/>
         <Route path='login' element={<Login/>}/>
-        <Route path='items' element={<ManageItems/>}/>
+        <Route path='manage-items' element={<ManageItems/>}/>
       </Route>
       <Route path='*' element={<PageNotFound/>}/>
     </Routes>

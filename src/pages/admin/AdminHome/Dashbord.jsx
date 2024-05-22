@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './Dashbord.css'
-import { FaBars, FaCross, FaCrosshairs, FaCut, FaWindowClose, FaWindowMinimize } from 'react-icons/fa';
 import AdminNev from '../../../components/AdminNev';
 export default function Dashbord() {
     

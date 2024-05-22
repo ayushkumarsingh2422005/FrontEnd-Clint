@@ -2,29 +2,31 @@ import React, { useState } from 'react'
 import { FaBars, FaMoneyBill, FaWindowClose } from 'react-icons/fa';
 import { FaPlateWheat } from 'react-icons/fa6';
 import { MdAdd, MdDashboard, MdLogout } from 'react-icons/md';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function AdminNev() {
     const [isOpen, setIsOpen] = useState(false);
+    let location = useLocation();
     return (
         <>
             <aside className="relative bg-sidebar h-screen w-64 sm:block shadow-xl hidden">
                 <div className="p-6">
-                    <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+                    <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin </a>
                 </div>
                 <nav className="text-white text-base font-semibold pt-3">
-                    <a href="index.html" className="flex items-center active-nav-link text-white py-4 pl-6 nav-item">
+                    <Link to="/admin" className={location.pathname == '/admin' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <MdDashboard /> &nbsp; Dashboard
-                    </a>
-                    <a href="blank.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
-                        <MdAdd /> &nbsp; Add itmes
-                    </a>
-                    <a href="tables.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                    </Link>
+                    <Link to="/admin/manage-items" className={location.pathname == '/admin/manage-items' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <MdAdd /> &nbsp; Item manager
+                    </Link>
+                    <Link to="tables.html" className={location.pathname == '/table' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaPlateWheat /> &nbsp; Tables
 
-                    </a>
-                    <a href="forms.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                    </Link>
+                    <Link to="forms.html" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaMoneyBill /> &nbsp; Bills
-                    </a>
+                    </Link>
 
                 </nav>
                 <div className="p-6">
@@ -47,21 +49,19 @@ export default function AdminNev() {
 
                 <nav className={`flex flex-col pt-4 ${isOpen ? 'flex' : 'hidden'}`}>
                     {/* :className="isOpen ? 'flex': 'hidden'" */}
-                    <a href="index.html" className="flex items-center active-nav-link text-white py-2 pl-4 nav-item">
+                    <Link to="/admin" className={location.pathname == '/admin' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <MdDashboard /> &nbsp; Dashboard
-                    </a>
-                    <a href="blank.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
-                        <MdAdd /> &nbsp; Add itmes
-                    </a>
-                    <a href="tables.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    </Link>
+                    <Link to="/admin/manage-items" className={location.pathname == '/admin/manage-items' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <MdAdd /> &nbsp; Item manager
+                    </Link>
+                    <Link to="tables.html" className={location.pathname == '/table' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaPlateWheat /> &nbsp; Tables
-                    </a>
-                    <a href="forms.html" className="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+
+                    </Link>
+                    <Link to="forms.html" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaMoneyBill /> &nbsp; Bills
-                    </a>
-                    <button className="w-full bg-white cta-btn font-semibold py-2 mt-3 rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                        <MdLogout /> &nbsp; Logout
-                    </button>
+                    </Link>
                 </nav>
                 {/* <!-- <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
                         <i className="fas fa-plus mr-3"></i> New Report
