@@ -16,23 +16,19 @@ export default function Home() {
 
             <form className="bg-gray-100 w-3/4 mx-auto p-12 mt-4">
                 <div className="mb-2">
-                    <label htmlFor="table">Table number</label>
+                    <label htmlFor="table">Name</label>
                     <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="table" id="table" />
                 </div>
                 <div className="mb-2">
-                    <label htmlFor="item-name">Item #1</label>
-                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="item-name" id="item-name" />
+                    <label htmlFor="item-name">Phone Number</label>
+                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="number" name="item-name" id="item-name" />
                 </div>
                 <div className="mb-2">
-                    <label htmlFor="quantity">Quantity</label>
-                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="quantity" id="quantity" value={1} />
+                    <label htmlFor="quantity">Table Number</label>
+                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="number" name="quantity" id="quantity" value={1} />
                 </div>
                 <div className="mb-2">
-                    <label htmlFor="plate">Plate</label>
-                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="plate" id="plate" />
-                </div>
-                <div className="mb-2">
-                    <button className="p-2 bg-green-500 w-full text-white">Place Order</button>
+                    <button className="p-2 bg-green-500 w-full text-white">Proceed</button>
                 </div>
 
             </form>
