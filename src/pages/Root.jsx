@@ -4,26 +4,20 @@ import cousineImage from '../assets/cousines.png';
 
 export default function Root() {
     return (
-        <section className="h-screen w-screen">
-            <div className="relative h-3/4 w-full">
-                <img src={cousineImage} alt="Cousine" className="absolute h-full w-full object-cover" />
-                <div className="absolute h-full w-full bg-secondary opacity-75" />
-                <h1 className="px-24 text-6xl md:text-8xl text-white font-bold absolute bottom-0 left-0">
-                    AFFECTIONARY
-                </h1>
+        <section className='h-screen max-w-screen'>
+            <div className='h-3/4 relative px-6'>
+                <img className='-z-20 h-full w-full absolute inset-0 object-cover' src={cousineImage} alt="Cousine Image" />
+                <div className='-z-10 absolute h-full w-full inset-0 bg-secondary opacity-75' />
+                <h1 className='z-10 absolute bottom-0 font-bold text-white text-5xl'>AFFECTIONARY</h1>
             </div>
-            <div className="px-4 md:px-24 mt-8">
-                <h2 className="text-secondary font-semibold text-2xl mb-2">Continue as</h2>
-                <button className="bg-secondary text-white p-4 mr-4 rounded-md hover:shadow-xl transition-shadow ease-in-out duration-300">
-                    <Link to={"/home"}>
-                    Customer
-                    </Link>
-                </button>
-                <button className="bg-gray-200 p-4 rounded-md hover:shadow-xl transition-shadow ease-in-out duration-300">
-                    <Link to={"/employee"}>
-                    Employee
-                    </Link>
-                </button>
+            <div className='px-6 py-4 bg-gray-100 h-1/4'>
+                <h2 className='text-secondary font-semibold text-xl mb-2'>Continue as</h2>
+                <Link to={'/home'}>
+                <button className='border p-2 rounded-md hover:shadow-lg transition-shadow ease-linear mr-2 bg-secondary text-white'>Customer</button>
+                </Link>
+                <Link to={'/employee'}>
+                <button className='border border-secondary p-2 rounded-md hover:shadow-lg transition-shadow ease-linear'>Employee</button>
+                </Link>
             </div>
         </section>
     );
