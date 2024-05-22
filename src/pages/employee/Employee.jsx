@@ -1,4 +1,4 @@
-import attendanceImage from '../assets/attendance.jpg'
+import attendanceImage from '../../assets/attendance.jpg'
 
 export default function Employee(){
     return (

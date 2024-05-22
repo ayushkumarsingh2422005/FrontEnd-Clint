@@ -1,49 +1,59 @@
 import { useState } from "react";
-import { CgMenuGridO } from "react-icons/cg";
-import { MdAdd, MdRestaurantMenu } from "react-icons/md";
+import { MdRestaurantMenu } from "react-icons/md";
 import data from "../data/items.json"
 import { FaMinus, FaPlus } from "react-icons/fa";
-import TopMenu from "../components/TopMenu";
+import { FaXmark } from "react-icons/fa6";
 
 export default function Home() {
-    const [showSideNav, setShowSideNav] = useState(true);
+    const [showSideNav, setShowSideNav] = useState(false);
     return (
         <main className="min-h-screen max-w-screen overflow-hidden">
-            <div className="px-6 md:px-12 lg:px-24 py-4 border-b flex items-center gap-x-2 justify-between">
-
-                <h1 className="text-4xl font-semibold text-secondary">AFFECTIONARY</h1>
-                <MdRestaurantMenu className="text-4xl text-secondary hover:text-black border p-1 hover:shadow-md cursor-pointer" onClick={() => setShowSideNav((prev)=>!prev)} />
+            <div className="bg-blue-600 text-white px-6 md:px-12 lg:px-24 py-4 border-b flex items-center gap-x-2 justify-between">
+                <h1 className="text-4xl font-semibold">AFFECTIONARY</h1>
+                <MdRestaurantMenu className="text-4xl hover:text-black border p-1 hover:shadow-md cursor-pointer" onClick={() => setShowSideNav(true)} />
 
             </div>
-            <TopMenu/>
-            <section className="relative px-6 md:px-12 lg:px-24 pt-8">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 w-full gap-1">
 
-                    {
-                        data.map((item, index) => {
-                            return (
-                                <div className="border p-3 flex justify-between items-center" key={index}>
-                                    <h1 className={`font-semibold text-4xl text-secondary ${index + 1 < 10 ? 'before:content-["0"]' : null}`}> {index + 1}</h1>
-                                    {item.name}
-                                    <MdAdd className="text-2xl border text-green-400 hover:shadow-lg cursor-pointer hover:bg-green-400 hover:text-white transition-all duration-200 ease-in-out" />
-                                </div>
-                            );
-                        })
-                    }
+            <form className="bg-gray-100 w-3/4 mx-auto p-12 mt-4">
+                <div className="mb-2">
+                    <label htmlFor="table">Table number</label>
+                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="table" id="table" />
                 </div>
-            <section className={`absolute right-0 top-0 z-10 border-r bg-white shadow-2xl h-full ${ showSideNav? 'translate-x-0':'translate-x-full'} transition-transform duration-300 ease-in-out`}>
-                <h1 className="bg-blue-600 px-12 py-2 text-3xl text-white">Orders</h1>
-                <ul className="text-md">
-                        <li className="border-b py-4 px-12">
-                            {data[0].name}
-                            <div className="flex items-center justify-between w-full mt-3">
-                                <FaMinus />
-                                 <input className="w-1/2 border text-center" type="text" name="quantity" id="quantity" disabled value={1} />
-                                <FaPlus />
-                            </div>
-                        </li>
-                    </ul>
-            </section>
+                <div className="mb-2">
+                    <label htmlFor="item-name">Item #1</label>
+                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="item-name" id="item-name" />
+                </div>
+                <div className="mb-2">
+                    <label htmlFor="quantity">Quantity</label>
+                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="quantity" id="quantity" value={1} />
+                </div>
+                <div className="mb-2">
+                    <label htmlFor="plate">Plate</label>
+                    <input className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="plate" id="plate" />
+                </div>
+                <div className="mb-2">
+                    <button className="p-2 bg-green-500 w-full text-white">Place Order</button>
+                </div>
+
+            </form>
+
+            {/* Order Menu */}
+            
+            <section className={`absolute right-0 top-0 z-10 border-r bg-white w-full h-full ${showSideNav ? 'translate-y-0' : '-translate-y-full'} transition-transform duration-300 ease-in-out`}>
+                <div className="flex bg-blue-600 text-white justify-between items-center px-6 py-4">
+                    <h1 className="text-3xl">Orders</h1>
+                    <FaXmark className="text-xl cursor-pointer hover:text-2xl transition-all ease-in-out" onClick={() => setShowSideNav(false)} />
+                </div>
+                <ul className="text-md px-6">
+                    <li className="py-2 border-b">
+                        {data[0].name}
+                        <div className="flex items-center justify-between w-full mt-3">
+                            <FaMinus />
+                            <input className="w-1/2 border text-center" type="text" name="quantity" id="quantity" disabled value={1} />
+                            <FaPlus />
+                        </div>
+                    </li>
+                </ul>
             </section>
         </main>
     );

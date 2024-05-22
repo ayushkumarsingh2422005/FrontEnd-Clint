@@ -3,7 +3,7 @@ import Home from './pages/Home'
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import { BrowserRouter , Routes , Route } from 'react-router-dom'
-import Employee from './pages/Employee'
+import Employee from './pages/employee/Employee'
 import PageNotFound from './pages/PageNotFound'
 function App() {
   return (
