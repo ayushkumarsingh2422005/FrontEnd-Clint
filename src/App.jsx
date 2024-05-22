@@ -5,16 +5,20 @@ import Dashboard from './pages/admin/Dashboard'
 import { BrowserRouter , Routes , Route } from 'react-router-dom'
 import Employee from './pages/employee/Employee'
 import PageNotFound from './pages/PageNotFound'
+import ManageItems from './pages/admin/ManageItems'
+import AdminHome from './pages/admin/AdminHome/AdminHome'
 function App() {
   return (
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Root/>} />
-      <Route path='/home' element={<Home/>} />
+      <Route path='/home' element={<Home />} />
       <Route path='/employee' element={<Employee/>} />
-      <Route path='/admin' >
+      <Route path='/admin'>
+        <Route path='' element={<AdminHome/>}/>
         <Route path='login' element={<Login/>}/>
         <Route path='dashboard' element={<Dashboard/>}/>
+        <Route path='items' element={<ManageItems/>}/>
       </Route>
       <Route path='*' element={<PageNotFound/>}/>
     </Routes>
