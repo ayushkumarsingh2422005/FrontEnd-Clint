@@ -1,10 +1,10 @@
 import { createContext, useEffect, useState } from "react";
-import { MdRestaurantMenu } from "react-icons/md";
 import data from "../data/items.json"
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import getAlldishes from "../utils/get_dishes";
 import Appbar from "../components/Appbar";
+import Sidebar from "../components/Sidebar";
 
 export const orderContext = createContext();
 
@@ -38,7 +38,7 @@ export default function Home() {
     return (
         <main className="min-h-screen max-w-screen overflow-hidden">
             <orderContext.Provider value={{ Visible: [showSideNav, setShowSideNav], Orders: [orders, setOrders] }}>
-               <Appbar />
+                <Appbar />
 
                 <form className="bg-gray-100 w-3/4 mx-auto p-12 mt-4" onSubmit={onSubmit} >
                     <div className="mb-2">
@@ -82,22 +82,8 @@ export default function Home() {
 
                 {/* Order Menu */}
 
-                <section className={`absolute right-0 top-0 z-50 border-r bg-white w-full h-full ${showSideNav ? 'translate-y-0' : '-translate-y-full'} transition-transform duration-300 ease-in-out`}>
-                    <div className="flex bg-blue-600 text-white justify-between items-center px-6 py-4">
-                        <h1 className="text-3xl">Orders</h1>
-                        <FaXmark className="text-xl cursor-pointer hover:text-2xl transition-all ease-in-out" onClick={() => setShowSideNav(false)} />
-                    </div>
-                    <ul className="text-md px-6">
-                        <li className="py-2 border-b">
-                            {data[0].name}
-                            <div className="flex items-center justify-between w-full mt-3">
-                                <FaMinus />
-                                <input className="w-1/2 border text-center" type="text" name="quantity" id="quantity" disabled value={1} />
-                                <FaPlus />
-                            </div>
-                        </li>
-                    </ul>
-                </section>
+                <Sidebar />
+
             </orderContext.Provider>
         </main>
     );
