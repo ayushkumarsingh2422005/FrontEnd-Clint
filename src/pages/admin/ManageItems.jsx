@@ -170,13 +170,13 @@ export default function ManageItems() {
         </div>
 
 
-        <div className={`w-full h-[100vh] fixed bg-slate-50 top-[${addItemState ? "0": "100vh"}] transition-all duration-1000`}>
+        <div className={`w-full h-[100vh] fixed bg-gray-200 top-[${addItemState ? "0": "100vh"}] transition-all duration-1000`}>
           <div className=' p-4 text-right text-2xl'>
             <FaXmark onClick={()=>setAddItemState(!addItemState)}/>
           </div>
 
-          <div className='bg-red-200 h-screen flex justify-center'>
-            <form className="max-w-md mx-auto rounded border p-2 h-auto">
+          <div className='p-4 h-screen flex justify-center items-center'>
+            <form className="max-w-md mx-auto rounded border border-black p-2">
               <div className="relative z-0 w-full mb-5 group">
                 <input type="email" name="floating_email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                 <label for="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Item Name</label>
@@ -221,7 +221,7 @@ export default function ManageItems() {
           </div>
 
         </div>
-      </div >
+      </div>
     </>
   )
 }
