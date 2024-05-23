@@ -21,7 +21,7 @@ export default function Appbar(){
         <FaPowerOff className="text-4xl p-2 hover:text-red-400 border-2 border-blue-800 cursor-pointer hover:shadow-md" onClick={()=>setShowDialog(true)} />
         </div>
         {orders.length > 0 && (
-            <div className="absolute z-20 right-14 md:right-16 lg:right-32 top-3 bg-red-500 text-xs px-1 text-center rounded-full">{orders.length}</div>
+            <div className="absolute right-24 md:right-32 lg:right-44 top-3 bg-red-500 text-xs px-1 text-center rounded-full">{orders.length}</div>
         )}
         {showDialog && (
             <DialogBox title='Log out' content='Are you sure you want to exit ? You will lost all of your saved orders.' action='log out' type='delete' onAction={onLogout} onCancel={()=>setShowDialog(false)} />
