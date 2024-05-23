@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AdminNev from '../../components/AdminNev'
 import { FaEdit, FaPen } from 'react-icons/fa'
 import { MdAdd, MdDelete, MdEdit } from 'react-icons/md'
 import { FaXmark } from 'react-icons/fa6'
 
 export default function ManageItems() {
+  const [addItemState, setAddItemState] = useState(false);
   return (
     <>
       <div className="bg-gray-100 font-family-karla flex sm:flex-row flex-col">
@@ -13,7 +14,7 @@ export default function ManageItems() {
         <div className="w-full overflow-x-hidden border-t flex flex-col h-[100vh]">
           <main className="w-full flex-grow p-6">
             <h1 className="text-3xl text-black pb-6">Item Manager</h1>
-            <div className='flex w-full items-center justify-center bg-green-400 p-3 rounded text-2xl text-green-950 cursor-pointer hover:bg-green-500'>
+            <div className='flex w-full items-center justify-center bg-green-400 p-3 rounded text-2xl text-green-950 cursor-pointer hover:bg-green-500' onClick={()=>setAddItemState(!addItemState)}>
               <MdAdd /> &nbsp; Add item
             </div>
             <div className="flex flex-wrap mt-6">
@@ -169,9 +170,9 @@ export default function ManageItems() {
         </div>
 
 
-        <div className='w-full h-[100vh] fixed bg-slate-50 '>
+        <div className={`w-full h-[100vh] fixed bg-slate-50 top-[${addItemState ? "0": "100vh"}] transition-all duration-1000`}>
           <div className=' p-4 text-right text-2xl'>
-            <FaXmark/>
+            <FaXmark onClick={()=>setAddItemState(!addItemState)}/>
           </div>
 
           <div className='bg-red-200 h-screen flex justify-center'>
