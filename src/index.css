@@ -6,6 +6,7 @@
 
 *{
   box-sizing: border-box;
+  user-select: none;
 }
 .lato-thin {
     font-family: "Lato", sans-serif;
