@@ -1,5 +1,57 @@
+import { useEffect, useState } from 'react';
 import restorent from '../../assets/logoRestorent.svg'
+import { useNavigate } from 'react-router-dom';
 export default function Login() {
+    const [adminId, setAdminId] = useState("");
+    const [adminPass, setAdminPass] = useState("");
+    const navigate = useNavigate();
+    const loginAction = () => {
+        fetch(`${import.meta.env.VITE_APP_URL}/api/admin/auth`, {
+            method: 'POST',
+            headers: {
+                'id': adminId,
+                'pass': adminPass,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Authentication failed');
+        }).then(data => {
+            console.log(data);
+
+            // Assuming a successful authentication if we reach here
+            localStorage.setItem("adminId", adminId);
+            localStorage.setItem("adminPass", adminPass);
+            navigate('/admin'); // Redirect to /admin
+        }).catch(error => {
+            console.log('Error:', error);
+            // Remain on the same page or handle error appropriately
+        });
+    }
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_APP_URL}/api/admin/auth`, {
+            method: 'POST',
+            headers: {
+                'id': localStorage.getItem("adminId"),
+                'pass': localStorage.getItem("adminPass"),
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Authentication failed');
+        }).then(data => {
+            console.log(data);
+            // Assuming a successful authentication if we reach here
+            navigate('/admin'); // Redirect to /admin
+        }).catch(error => {
+            console.log('Error:', error);
+            // Remain on the same page or handle error appropriately
+        });
+    }, [navigate]);
     return (
         <section className="bg-gray-200 darkdicarted:bg-gray-900 h-[100vh] flex align-middle">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -14,12 +66,12 @@ export default function Login() {
                         </h1>
                         <form className="space-y-4 md:space-y-6" action="#">
                             <div>
-                                <label for="email" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Your email</label>
-                                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" placeholder="name@company.com" required="" />
+                                <label htmlFor="adminID" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Admin Id</label>
+                                <input type="text" name="adminID" id="adminID" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" placeholder="admin" required value={adminId} onChange={(e)=>setAdminId(e.target.value)}/>
                             </div>
                             <div>
-                                <label for="password" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" required="" />
+                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Password</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" required value={adminPass} onChange={(e)=>setAdminPass(e.target.value)}/>
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
@@ -27,13 +79,13 @@ export default function Login() {
                                         <input id="remember" aria-describedby="remember" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:focus:ring-primary-600 darkdicarted:ring-offset-gray-800" required="" />
                                     </div>
                                     <div className="ml-3 text-sm">
-                                        <label for="remember" className="text-gray-500 darkdicarted:text-gray-300">Remember me</label>
+                                        <label htmlFor="remember" className="text-gray-500 darkdicarted:text-gray-300">Remember me</label>
                                     </div>
                                 </div>
                                 <a href="#" className="text-sm font-medium text-primary-600 hover:underline darkdicarted:text-primary-500">Forgot password?</a>
                             </div><br />
-                            <button type="submit" className="w-full text-blue-500 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center darkdicarted:bg-primary-600 darkdicarted:hover:bg-primary-700 darkdicarted:focus:ring-primary-800 border-blue-200 border">Sign in</button>
-                            
+                            <button type="submit" className="w-full text-blue-500 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center darkdicarted:bg-primary-600 darkdicarted:hover:bg-primary-700 darkdicarted:focus:ring-primary-800 border-blue-200 border" onClick={loginAction}>Sign in</button>
+
                         </form>
                     </div>
                 </div>
