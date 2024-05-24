@@ -11,9 +11,12 @@ export default function Home() {
   const [userInfo, setUserInfo] = useState({ name: '', number: '', table: '' });
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [orderItem, setOrderItem] = useState({
-    item: {},
+    orderID:'',
+    itemID:'',
+    itemName:'',
+    price:'',
     quantity: 1,
-    plate: 'half'
+    plate: ''
   });
   const [dishes, setDishes] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -74,14 +77,28 @@ export default function Home() {
 
   const onOrderSubmit = (e) => {
     e.preventDefault();
-    const newOrder = { ...orderItem, item: dishes.find(dish => dish.dishId === orderItem.item) };
+    const selectedDish = dishes.find(dish => dish.dishId === orderItem.itemID);
+
+    if (!selectedDish) {
+      console.error('Selected dish not found');
+      return;
+    }
+    const newOrder = {
+      ...orderItem,
+      orderID: Date.now() + Math.random().toString(36).substring(2, 9),
+      itemName: selectedDish.name,
+      price: orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price
+    };
     const updatedOrders = [...orders, newOrder];
     localStorage.setItem('orders', JSON.stringify(updatedOrders));
     setOrders(updatedOrders);
     setOrderItem({
-      item: '',
+      orderID:'',
+      itemID:'',
+      itemName: '',
+      price:'',
       quantity: 1,
-      plate: 'half'
+      plate: ''
     });
   };
 
@@ -98,14 +115,29 @@ export default function Home() {
               <input className="w-full block border p-2 bg-gray-50 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="table" id="table" value={userInfo.table} disabled />
             </div>
             <div className="mb-2">
-              <label htmlFor="item-name">Item</label>
-              <select className="block w-full outline-none p-2 mt-1 focus:border-secondary" name="item-name" id="item-name" value={orderItem.item} onChange={(e) => setOrderItem((prev) => ({ ...prev, item: e.target.value }))}>
-                <option value="" disabled>Select an item</option>
-                {dishes.map((item) => (
-                  <option value={item.dishId} key={item.dishId}>{item.name}</option>
-                ))}
-              </select>
-            </div>
+  <label htmlFor="item-id">Item</label>
+  <select
+    className="block w-full outline-none p-2 mt-1 focus:border-secondary"
+    name="item-id"
+    id="item-id"
+    value={orderItem.itemID}
+    onChange={(e) => {
+      const selectedDish = dishes.find(dish => dish.dishId === e.target.value);
+      setOrderItem((prev) => ({
+        ...prev,
+        itemID: e.target.value,
+        itemName: selectedDish ? selectedDish.name : '',
+        price: selectedDish ? (orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price) : ''
+      }));
+    }}
+  >
+    <option value="" disabled>Select an item</option>
+    {dishes.map((item) => (
+      <option value={item.dishId} key={item.dishId}>{item.name} - <span>₹{item.restaurant_half_price}/{item.restaurant_full_price}</span> </option>
+    ))}
+  </select>
+</div>
+
             <div className="mb-2">
               <label htmlFor="quantity">Quantity</label>
               <input
@@ -121,6 +153,7 @@ export default function Home() {
             <div className="mb-8">
               <label htmlFor="plate">Plate</label>
               <select className="block w-full outline-none p-2 mt-1 focus:border-secondary" name="plate" id="plate" value={orderItem.plate} onChange={(e) => setOrderItem((prev) => ({ ...prev, plate: e.target.value }))}>
+              <option value="" disabled>Select an item</option>
                 <option value="half">Half Plate</option>
                 <option value="full">Full Plate</option>
               </select>

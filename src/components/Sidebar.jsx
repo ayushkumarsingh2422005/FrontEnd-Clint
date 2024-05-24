@@ -12,22 +12,18 @@ export default function Sidebar() {
     
   // Function to delete an order
   const deleteOrder = (dishId) => {
-    const updatedOrders = orders.filter(order => order.item.dishId !== dishId);
+    const updatedOrders = orders.filter(order => order.orderID !== dishId);
     setOrders(updatedOrders);
     localStorage.setItem('orders', JSON.stringify(updatedOrders));
   };
 
     // Function to update order quantity
     const updateQuantity = (dishId, newQuantity) => {
-        if (newQuantity < 1) {
-          deleteOrder(dishId);
-        } else {
           const updatedOrders = orders.map(order => 
-            order.item.dishId === dishId ? { ...order, quantity: newQuantity } : order
+            order.orderID === dishId ? { ...order, quantity: newQuantity } : order
           );
           setOrders(updatedOrders);
           localStorage.setItem('orders', JSON.stringify(updatedOrders));
-        }
       };
 
       useEffect(() => {
@@ -37,12 +33,11 @@ export default function Sidebar() {
       
       const getTotalPrice = () => {
         const ord = JSON.parse( localStorage.getItem('orders'));
-        return ord.reduce((total, order) => {
-          const price = order.plate === 'half' ? order.item.restaurant_half_price : order.item.restaurant_full_price;
-          console.log('total'+total);
-          console.log('price'+price);
+        let t = ord?.reduce((total, order) => {
+          const price = order.price;
           return total + (order.quantity * price);
         }, 0);
+        return t;
       };
       
     return (
