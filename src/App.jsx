@@ -6,6 +6,7 @@ import Employee from './pages/employee/Employee'
 import PageNotFound from './pages/PageNotFound'
 import ManageItems from './pages/admin/ManageItems'
 import Dashbord from './pages/admin/AdminHome/Dashbord'
+import ManageOrders from './pages/admin/ManageOrders'
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ function App() {
         <Route path='' element={<Dashbord/>}/>
         <Route path='login' element={<Login/>}/>
         <Route path='manage-items' element={<ManageItems/>}/>
+        <Route path='manage-orders' element={<ManageOrders/>}/>
       </Route>
       <Route path='*' element={<PageNotFound/>}/>
     </Routes>

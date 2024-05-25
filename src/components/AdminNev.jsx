@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
-import { FaBars, FaMoneyBill, FaWindowClose } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react'
+import { FaBars, FaMoneyBill, FaUtensils, FaWindowClose } from 'react-icons/fa';
 import { FaPlateWheat } from 'react-icons/fa6';
 import { MdAdd, MdDashboard, MdLogout } from 'react-icons/md';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import admin_logined from '../utils/admin_logined';
 
 export default function AdminNev() {
-    admin_logined();
+    admin_logined()
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     let location = useLocation();
+
+    // useEffect(()=>{
+    //     admin_logined();
+    // }, []);
     return (
         <>
             <aside className="relative bg-sidebar h-screen w-64 sm:block shadow-xl hidden">
@@ -23,24 +27,24 @@ export default function AdminNev() {
                     <Link to="/admin/manage-items" className={location.pathname == '/admin/manage-items' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <MdAdd /> &nbsp; Item manager
                     </Link>
-                    <Link to="tables.html" className={location.pathname == '/table' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaPlateWheat /> &nbsp; Tables
+                    <Link to="/admin/manage-orders" className={location.pathname == '/admin/manage-orders' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <FaUtensils /> &nbsp; Orders
 
                     </Link>
                     <Link to="forms.html" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaMoneyBill /> &nbsp; Bills
                     </Link>
-
+                    <div className="p-6">
+                        <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={() => { localStorage.clear(); navigate('/admin/login') }}>
+                            <MdLogout /> &nbsp; Logout
+                        </button>
+                    </div>
                 </nav>
-                <div className="p-6">
-                    <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={()=>{localStorage.clear(); navigate('/admin/login')}}>
-                        <MdLogout /> &nbsp; Logout
-                    </button>
-                </div>
+
             </aside>
 
 
-            <header className="w-full bg-sidebar py-5 px-6 sm:hidden block">
+            <header className="w-full bg-sidebar py-5 px-6 sm:hidden block sticky top-0">
                 <div className="flex items-center justify-between">
                     <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
                     <button className="text-white text-3xl focus:outline-none" onClick={() => setIsOpen(!isOpen)}>
@@ -58,19 +62,20 @@ export default function AdminNev() {
                     <Link to="/admin/manage-items" className={location.pathname == '/admin/manage-items' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <MdAdd /> &nbsp; Item manager
                     </Link>
-                    <Link to="tables.html" className={location.pathname == '/table' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaPlateWheat /> &nbsp; Tables
+                    <Link to="/admin/manage-orders" className={location.pathname == '/table' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <FaUtensils /> &nbsp; Orders
 
                     </Link>
                     <Link to="forms.html" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaMoneyBill /> &nbsp; Bills
-                    </Link>
+                    </Link> 
+                    <div className="p-6">
+                        <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={() => { localStorage.clear(); navigate('/admin/login') }}>
+                            <MdLogout /> &nbsp; Logout
+                        </button>
+                    </div>
                 </nav>
-                <div className="p-6">
-                    <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={()=>{localStorage.clear(); navigate('/admin/login')}}>
-                        <MdLogout /> &nbsp; Logout
-                    </button>
-                </div>
+
             </header>
         </>
     )

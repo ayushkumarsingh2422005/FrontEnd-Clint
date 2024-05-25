@@ -34,24 +34,29 @@ export default function Login() {
         fetch(`${import.meta.env.VITE_APP_URL}/api/admin/auth`, {
             method: 'POST',
             headers: {
-                'id': localStorage.getItem("adminId"),
-                'pass': localStorage.getItem("adminPass"),
+                'id': localStorage.getItem("adminId") || " ",
+                'pass': localStorage.getItem("adminPass") || " ",
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            if (response.ok) {
+            if (response.status === 200) {
                 return response.json();
+            } else if (response.status === 401) {
+                // Handle unauthorized error
+                throw new Error('Unauthorized: Invalid credentials.');
+            } else {
+                // Handle other errors
+                throw new Error(`Authentication failed with status code ${response.status}`);
             }
-            throw new Error('Authentication failed');
         }).then(data => {
             console.log(data);
             // Assuming a successful authentication if we reach here
             navigate('/admin'); // Redirect to /admin
         }).catch(error => {
-            console.log('Error:', error);
-            // Remain on the same page or handle error appropriately
+            console.log(error)
         });
-    }, [navigate]);
+
+    }, []);
     return (
         <section className="bg-gray-200 darkdicarted:bg-gray-900 h-[100vh] flex align-middle">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -67,11 +72,11 @@ export default function Login() {
                         <form className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="adminID" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Admin Id</label>
-                                <input type="text" id="adminID" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" placeholder="admin" required value={adminId} onChange={(e)=>setAdminId(e.target.value)}/>
+                                <input type="text" id="adminID" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" placeholder="admin" required value={adminId} onChange={(e) => setAdminId(e.target.value)} />
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Password</label>
-                                <input type="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" required value={adminPass} onChange={(e)=>setAdminPass(e.target.value)}/>
+                                <input type="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" required value={adminPass} onChange={(e) => setAdminPass(e.target.value)} />
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
