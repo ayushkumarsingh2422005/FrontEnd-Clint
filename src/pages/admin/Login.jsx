@@ -64,14 +64,14 @@ export default function Login() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl darkdicarted:text-white">
                             Sign in to your account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" action="#">
+                        <form className="space-y-4 md:space-y-6">
                             <div>
                                 <label htmlFor="adminID" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Admin Id</label>
-                                <input type="text" name="adminID" id="adminID" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" placeholder="admin" required value={adminId} onChange={(e)=>setAdminId(e.target.value)}/>
+                                <input type="text" id="adminID" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" placeholder="admin" required value={adminId} onChange={(e)=>setAdminId(e.target.value)}/>
                             </div>
                             <div>
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" required value={adminPass} onChange={(e)=>setAdminPass(e.target.value)}/>
+                                <input type="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" required value={adminPass} onChange={(e)=>setAdminPass(e.target.value)}/>
                             </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-start">
@@ -84,7 +84,7 @@ export default function Login() {
                                 </div>
                                 <a href="#" className="text-sm font-medium text-primary-600 hover:underline darkdicarted:text-primary-500">Forgot password?</a>
                             </div><br />
-                            <button type="submit" className="w-full text-blue-500 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center darkdicarted:bg-primary-600 darkdicarted:hover:bg-primary-700 darkdicarted:focus:ring-primary-800 border-blue-200 border" onClick={loginAction}>Sign in</button>
+                            <button className="w-full text-blue-500 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center darkdicarted:bg-primary-600 darkdicarted:hover:bg-primary-700 darkdicarted:focus:ring-primary-800 border-blue-200 border" onClick={loginAction}>Sign in</button>
 
                         </form>
                     </div>
