@@ -3,8 +3,10 @@ import { FaBars, FaMoneyBill, FaWindowClose } from 'react-icons/fa';
 import { FaPlateWheat } from 'react-icons/fa6';
 import { MdAdd, MdDashboard, MdLogout } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
+import admin_logined from '../utils/admin_logined';
 
 export default function AdminNev() {
+    admin_logined();
     const [isOpen, setIsOpen] = useState(false);
     let location = useLocation();
     return (
@@ -30,7 +32,7 @@ export default function AdminNev() {
 
                 </nav>
                 <div className="p-6">
-                    <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+                    <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={()=>{localStorage.clear(); admin_logined()}}>
                         <MdLogout /> &nbsp; Logout
                     </button>
                 </div>
@@ -63,9 +65,11 @@ export default function AdminNev() {
                         <FaMoneyBill /> &nbsp; Bills
                     </Link>
                 </nav>
-                {/* <!-- <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
-                        <i className="fas fa-plus mr-3"></i> New Report
-                    </button> --> */}
+                <div className="p-6">
+                    <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={()=>{localStorage.clear(); admin_logined()}}>
+                        <MdLogout /> &nbsp; Logout
+                    </button>
+                </div>
             </header>
         </>
     )

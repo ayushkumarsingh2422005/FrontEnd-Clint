@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Dashbord.css'
 import AdminNev from '../../../components/AdminNev';
+import admin_logined from '../../../utils/admin_logined';
 export default function Dashbord() {
-    
     return (
         <>
             <div className="bg-gray-100 font-family-karla flex sm:flex-row flex-col">
