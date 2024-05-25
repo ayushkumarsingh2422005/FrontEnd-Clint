@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { MdRestaurantMenu } from "react-icons/md";
 import { orderContext } from "../pages/Home";
 import { FaPowerOff } from "react-icons/fa";
-import DialogBox from "./DialogBox"
+import DialogBox from "./DialogBox";
 
 export default function Appbar(){
     const {Visible , Orders} = useContext(orderContext);

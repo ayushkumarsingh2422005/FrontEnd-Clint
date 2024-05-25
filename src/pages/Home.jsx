@@ -3,6 +3,7 @@ import getAlldishes from "../utils/get_dishes";
 import Appbar from "../components/Appbar";
 import Sidebar from "../components/Sidebar";
 import UserInfo from "../components/UserInfo";
+import { ToastContainer } from "react-toastify";
 
 export const orderContext = createContext();
 
@@ -11,20 +12,21 @@ export default function Home() {
   const [userInfo, setUserInfo] = useState({ name: '', number: '', table: '' });
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [orderItem, setOrderItem] = useState({
-    orderID:'',
-    itemID:'',
-    itemName:'',
-    price:'',
+    orderID: '',
+    itemID: '',
+    itemName: '',
+    price: '',
     quantity: 1,
     plate: ''
   });
   const [dishes, setDishes] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [KOT,setKOT] = useState(null);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     getUser();
-   
+
     const fetchDishes = async () => {
       try {
         const data = await getAlldishes();
@@ -38,20 +40,24 @@ export default function Home() {
     if (storedOrders) {
       setOrders(JSON.parse(storedOrders));
     }
+    const existingkot = localStorage.getItem('kot') || '[]';
+    const parsedKot = JSON.parse(existingkot);
+    setKOT(parsedKot);
+
   }, []);
 
-  const getUser = async()=>{
+  const getUser = async () => {
     const data = localStorage.getItem('user');
-    if (data != null){
-        if(data.name != ''){
-            setUserInfo(JSON.parse(data));
-        }else{
+    if (data != null) {
+      if (data.name != '') {
+        setUserInfo(JSON.parse(data));
+      } else {
         setShowInfoModal(true);
-        }
-    }else{
-        setShowInfoModal(true);
+      }
+    } else {
+      setShowInfoModal(true);
     }
-    
+
   }
 
   const validateUserInfo = () => {
@@ -71,7 +77,7 @@ export default function Home() {
     } else {
       setErrors({});
       setShowInfoModal(false);
-      localStorage.setItem('user',JSON.stringify(userInfo));
+      localStorage.setItem('user', JSON.stringify(userInfo));
     }
   };
 
@@ -93,10 +99,10 @@ export default function Home() {
     localStorage.setItem('orders', JSON.stringify(updatedOrders));
     setOrders(updatedOrders);
     setOrderItem({
-      orderID:'',
-      itemID:'',
+      orderID: '',
+      itemID: '',
       itemName: '',
-      price:'',
+      price: '',
       quantity: 1,
       plate: ''
     });
@@ -104,39 +110,56 @@ export default function Home() {
 
   return (
     <main className="min-h-screen max-w-screen overflow-hidden">
-      <orderContext.Provider value={{ Visible: [showSideNav, setShowSideNav], Orders: [orders, setOrders] , user:[setUserInfo,userInfo,errors,onInfoSubmit] }}>
+      <ToastContainer className='w-4/5 mx-auto mt-16' />
+      <orderContext.Provider value={{ Visible: [showSideNav, setShowSideNav], Orders: [orders, setOrders], user: [setUserInfo, userInfo, errors, onInfoSubmit] , kot:[KOT,setKOT]}}>
         <Appbar />
         {showInfoModal ? (
-         <UserInfo/>
+          <UserInfo />
         ) : (
+          <>
+         {KOT && KOT.length > 0 && (
+                <div className="bg-gray-100 w-3/4 mx-auto p-6 mt-4">
+                    <p>Your Order(s) is/are arriving soon</p>
+                    <ul className="w-full">
+                        {KOT.map((orderId, index) => (
+                            <li key={index} className="flex justify-between py-1">
+                                <p className="text-secondary font-bold">Order ID: #{orderId}</p>
+                                <a className="text-blue-600" href={`/order/${orderId}`}>view</a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
           <form className="bg-gray-100 w-3/4 mx-auto p-12 mt-4" onSubmit={onOrderSubmit}>
             <div className="mb-2">
               <label htmlFor="table">Table number</label>
               <input className="w-full block border p-2 bg-gray-50 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="table" id="table" value={userInfo.table} disabled />
             </div>
             <div className="mb-2">
-  <label htmlFor="item-id">Item</label>
-  <select
-    className="block w-full outline-none p-2 mt-1 focus:border-secondary"
-    name="item-id"
-    id="item-id"
-    value={orderItem.itemID}
-    onChange={(e) => {
-      const selectedDish = dishes.find(dish => dish.dishId === e.target.value);
-      setOrderItem((prev) => ({
-        ...prev,
-        itemID: e.target.value,
-        itemName: selectedDish ? selectedDish.name : '',
-        price: selectedDish ? (orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price) : ''
-      }));
-    }}
-  >
-    <option value="" disabled>Select an item</option>
-    {dishes.map((item) => (
-      <option value={item.dishId} key={item.dishId}>{item.name} - <span>₹{item.restaurant_half_price}/{item.restaurant_full_price}</span> </option>
-    ))}
-  </select>
-</div>
+              <label htmlFor="item-id">Item</label>
+              <select
+                className="block w-full outline-none p-2 mt-1 focus:border-secondary"
+                name="item-id"
+                id="item-id"
+                value={orderItem.itemID}
+                onChange={(e) => {
+                  const selectedDish = dishes.find(dish => dish.dishId === e.target.value);
+                  setOrderItem((prev) => ({
+                    ...prev,
+                    itemID: e.target.value,
+                    itemName: selectedDish ? selectedDish.name : '',
+                    price: selectedDish ? (orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price) : ''
+                  }));
+                }}
+              >
+                <option value="" disabled>Select an item</option>
+                {dishes.map((item) => (
+                  <option value={item.dishId} key={item.dishId}>
+                    {item.name} - ₹{item.restaurant_half_price} / {item.restaurant_full_price}
+                  </option>
+                ))}
+              </select>
+            </div>
 
             <div className="mb-2">
               <label htmlFor="quantity">Quantity</label>
@@ -153,7 +176,7 @@ export default function Home() {
             <div className="mb-8">
               <label htmlFor="plate">Plate</label>
               <select className="block w-full outline-none p-2 mt-1 focus:border-secondary" name="plate" id="plate" value={orderItem.plate} onChange={(e) => setOrderItem((prev) => ({ ...prev, plate: e.target.value }))}>
-              <option value="" disabled>Select an item</option>
+                <option value="" disabled>Select an item</option>
                 <option value="half">Half Plate</option>
                 <option value="full">Full Plate</option>
               </select>
@@ -162,6 +185,7 @@ export default function Home() {
               <button className="p-2 bg-blue-500 hover:bg-blue-700 w-full text-white" type="submit">Add</button>
             </div>
           </form>
+        </>
         )}
         <Sidebar />
       </orderContext.Provider>
