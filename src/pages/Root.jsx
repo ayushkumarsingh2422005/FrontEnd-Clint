@@ -6,11 +6,6 @@ import adminProfile from '../assets/Admin-Profile.png';
 export default function Root() {
     return (
         <>
-            <Link to={'/admin'} className='w-12 fixed right-2 top-2'>
-                <div className='w-12 fixed right-2 top-2 flex flex-col'>
-                    <img src={adminProfile} alt="admin profile" className='rounded-full bg-slate-600'/>
-                </div>
-            </Link>
             <section className='h-screen max-w-screen'>
                 <div className='h-3/4 relative px-6'>
                     <img className='-z-20 h-full w-full absolute inset-0 object-cover' src={cousineImage} alt="Cousine Image" />
@@ -27,6 +22,11 @@ export default function Root() {
                     </Link>
                 </div>
             </section>
+            <div className='w-12 fixed right-2 top-2 flex flex-col' onClick={() => console.log("object")}>
+                <Link to={'/admin'} className='w-12 fixed right-2 top-2'>
+                    <img src={adminProfile} alt="admin profile" className='rounded-full bg-slate-600' />
+                </Link>
+            </div>
         </>
     );
 }
