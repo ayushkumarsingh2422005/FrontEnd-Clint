@@ -8,7 +8,8 @@ import PageNotFound from './pages/PageNotFound'
 import ManageItems from './pages/admin/ManageItems'
 import Dashbord from './pages/admin/AdminHome/Dashbord'
 import ManageOrders from './pages/admin/ManageOrders'
-
+import ManageEmploye from './pages/admin/ManageEmploye'
+import Invoice from './pages/admin/Invoice'
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,8 @@ function App() {
         <Route path='login' element={<AdminLogin/>}/>
         <Route path='manage-items' element={<ManageItems/>}/>
         <Route path='manage-orders' element={<ManageOrders/>}/>
+        <Route path='manage-employe' element={<ManageEmploye/>}/>
+        <Route path='invoice/:id' element={<Invoice/>}/>
       </Route>
       <Route path='*' element={<PageNotFound/>}/>
     </Routes>
