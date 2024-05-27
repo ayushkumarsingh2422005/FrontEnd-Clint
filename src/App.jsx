@@ -12,6 +12,7 @@ import ManageEmploye from './pages/admin/ManageEmploye'
 import Invoice from './pages/admin/Invoice'
 function App() {
   return (
+    <>
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Root/>} />
@@ -29,6 +30,7 @@ function App() {
       <Route path='*' element={<PageNotFound/>}/>
     </Routes>
     </BrowserRouter>
+    </>
   )
 }
 

@@ -1,19 +1,56 @@
-import { useState } from 'react';
+import showToastMessage from '../utils/toast_message'
+import { useEffect, useState } from 'react';
 import restorent from '../assets/logoRestorent.svg'
+import { ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import employeeLogin from '../utils/employee_login';
+
 export default function EmployeeLogin() {
     const [id, setId] = useState('');
     const [pass, setPass] = useState('');
-    
-    const onFormSubmit = (e) =>{
+    const navigate = useNavigate();
+
+    const onFormSubmit = async (e) =>{
         e.preventDefault();
-        console.log({
-            "id":id,
-            "password":pass,
-        });
+        const body = {"id":id,"password":pass};
+       try {
+        const resp = await employeeLogin(body);
+        if (resp === true){
+            showToastMessage('success','Logged in successfully');
+            localStorage.setItem('credentials',JSON.stringify(body));
+            navigate('/home');
+        }else{
+            showToastMessage('error','Invalid credentials');
+        }
+       } catch (error) {
+            showToastMessage('error','Something went wrong');
+       }
     }
+
+    const checkForUser = async()=>{
+        try {
+            let cred = localStorage.getItem('credentials') ?? null;
+            if (cred){
+                const resp = await employeeLogin(JSON.parse(cred));
+                if (resp){
+                    navigate('/home');
+                }else{
+                    localStorage.removeItem('credentials');
+                }
+            }
+        } catch (error) {
+            showToastMessage('error','Something went wrong');
+        }
+
+    }
+
+    useEffect(()=>{
+        checkForUser();
+    },[])
 
     return (
         <section className="bg-gray-100 h-[100vh] flex align-middle">
+            <ToastContainer className='w-4/5 mx-auto mt-16' />
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900">
                     <img className="w-8 h-8 mr-2" src={restorent} alt="logo" />

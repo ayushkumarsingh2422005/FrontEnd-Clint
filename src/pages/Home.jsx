@@ -4,6 +4,9 @@ import Appbar from "../components/Appbar";
 import Sidebar from "../components/Sidebar";
 import UserInfo from "../components/UserInfo";
 import { ToastContainer } from "react-toastify";
+import showToastMessage from "../utils/toast_message";
+import employeeLogin from "../utils/employee_login";
+import { useNavigate } from "react-router-dom";
 
 export const orderContext = createContext();
 
@@ -23,7 +26,7 @@ export default function Home() {
   const [orders, setOrders] = useState([]);
   const [KOT,setKOT] = useState(null);
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate();
   useEffect(() => {
     getUser();
 
@@ -44,6 +47,7 @@ export default function Home() {
     const parsedKot = JSON.parse(existingkot);
     setKOT(parsedKot);
 
+      checkForUser();
   }, []);
 
   const getUser = async () => {
@@ -108,6 +112,25 @@ export default function Home() {
     });
   };
 
+  
+  const checkForUser = async()=>{
+    try {
+        let cred = localStorage.getItem('credentials');
+        if (cred){
+            const resp = await employeeLogin(JSON.parse(cred));
+            if (resp === false){
+                navigate('/login');
+                localStorage.removeItem('credentials');
+            }
+        }else{
+          navigate('/login');
+        }
+    } catch (error) {
+      console.log(error);
+        showToastMessage('error','Something went wrong');
+    }
+
+}
   return (
     <main className="min-h-screen max-w-screen overflow-hidden">
       <ToastContainer className='w-4/5 mx-auto mt-16' />
