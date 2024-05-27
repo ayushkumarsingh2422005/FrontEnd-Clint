@@ -31,7 +31,7 @@ export default function AdminNev() {
                         <FaUtensils /> &nbsp; Orders
 
                     </Link>
-                    <Link to="/admin/manage-employe" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                    <Link to="/admin/manage-employe" className={location.pathname == '/admin/manage-employe' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaPeopleGroup /> &nbsp; Employe Details
                     </Link>
                     <div className="p-6">
@@ -62,11 +62,11 @@ export default function AdminNev() {
                     <Link to="/admin/manage-items" className={location.pathname == '/admin/manage-items' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <MdAdd /> &nbsp; Item manager
                     </Link>
-                    <Link to="/admin/manage-orders" className={location.pathname == '/table' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                    <Link to="/admin/manage-orders" className={location.pathname == '/admin/manage-orders' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaUtensils /> &nbsp; Orders
 
                     </Link>
-                    <Link to="/admin/manage-employe" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                    <Link to="/admin/manage-employe" className={location.pathname == '/admin/manage-employe' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaPeopleGroup /> &nbsp; Employe Details
                     </Link> 
                     <div className="p-6">
