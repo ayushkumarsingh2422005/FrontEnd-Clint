@@ -3,6 +3,8 @@ import AdminNev from '../../components/AdminNev'
 import { FaEdit, FaPen } from 'react-icons/fa'
 import { MdAdd, MdDelete, MdEdit } from 'react-icons/md'
 import { FaXmark } from 'react-icons/fa6'
+import OrderStatusTooltip from '../../components/OrderStatusTooltip'
+import { PieChart } from '@mui/x-charts/PieChart';
 
 export default function ManageOrders() {
   const [addItemState, setAddItemState] = useState(false);
@@ -16,7 +18,7 @@ export default function ManageOrders() {
   const [zomatoHalfPrice, setZomatoHalfPrice] = useState("");
   const [editElementId, setEditElementId] = useState();
   const [allOrderData, setAllOrderData] = useState();
-
+  const [orderType, setOrderType] = useState('all');
 
   const updateItemFromStore = async () => {
     const item_data = {
@@ -49,7 +51,7 @@ export default function ManageOrders() {
 
     //   alert('Item updated successfully');
     //   // Optionally, update the list of items
-    //   getItemFromStore();
+    //   getOrderFromStore();
     // } catch (error) {
     //   console.error('There was a problem with the fetch operation:', error);
     //   alert('There was a problem updating the item: ' + error.message);
@@ -72,7 +74,7 @@ export default function ManageOrders() {
 
     alert('Item updated successfully');
     // Optionally, update the list of items
-    getItemFromStore();
+    getOrderFromStore(orderType);
   };
 
 
@@ -98,9 +100,10 @@ export default function ManageOrders() {
     setAddItemState(!addItemState);
     console.log(ele);
   }
-  const getItemFromStore = async () => {
+
+  const getOrderFromStore = async (type) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/getall`);
+      const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/getall/${type}`);
 
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
@@ -115,11 +118,11 @@ export default function ManageOrders() {
     }
   };
 
-  const delItemFromStore = async (e) => {
+  const delOrder = async (e) => {
     const id = e.target.parentElement.parentElement.id;
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/dishes/del/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/del/${id}`, {
         method: 'DELETE',
       });
 
@@ -131,7 +134,7 @@ export default function ManageOrders() {
       console.log(data);
       console.log(id);
 
-      getItemFromStore();
+      getOrderFromStore(orderType);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       alert('There was a problem deleting the item: ' + error.message);
@@ -140,7 +143,7 @@ export default function ManageOrders() {
 
 
   useEffect(() => {
-    getItemFromStore();
+    getOrderFromStore(orderType);
   }, []);
   return (
     <>
@@ -157,7 +160,10 @@ export default function ManageOrders() {
                   <i className="fas fa-plus mr-3"></i> Order Reports
                 </p>
                 <div className="p-6 bg-white">
-                  <b>Total Item In store</b> : {allOrderData && allOrderData.length}
+                  <b>Total Orders</b> : {allOrderData && allOrderData.length} <br />
+                  <span className='text-red-700'><b>Pending Orders</b> : {allOrderData && allOrderData.filter((order) => order.status === 'pending').length}</span> <br />
+                  <span className='text-blue-700'><b>Completed Orders</b> : {allOrderData && allOrderData.filter((order) => order.status === 'completed').length}</span> <br />
+                  <span className='text-green-700'><b>Paid Orders</b> : {allOrderData && allOrderData.filter((order) => order.status === 'paid').length}</span>
                 </div>
               </div>
               <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
@@ -165,7 +171,19 @@ export default function ManageOrders() {
                   <i className="fas fa-check mr-3"></i> Data Reports
                 </p>
                 <div className="p-6 bg-white">
-                  <canvas id="chartTwo" width="400" height="200"></canvas>
+                  <PieChart
+                    series={[
+                      {
+                        data: [
+                          { id: 0, value: allOrderData && allOrderData.filter((order) => order.status === 'pending').length, label: 'Pending', color: '#FF5733' },
+                          { id: 1, value: allOrderData && allOrderData.filter((order) => order.status === 'completed').length, label: 'Completed', color: '#0096FF' },
+                          { id: 2, value: allOrderData && allOrderData.filter((order) => order.status === 'paid').length, label: 'Paid', color: '#50C878' },
+                        ],
+                      },
+                    ]}
+                    width={400}
+                    height={200}
+                  />
                 </div>
               </div>
             </div>
@@ -180,46 +198,64 @@ export default function ManageOrders() {
                     <tr>
                       <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Order id</th>
                       <th className="w-2/3 text-left py-3 px-4 uppercase font-semibold text-sm">Items</th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Name/Phone</th>
+                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Name/Phone</th>
                       <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Total Prize</th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Time</th>
+                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Time</th>
                       <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Table Number</th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Status</th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Edit / Del</th>
+                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm cursor-pointer" onClick={() => {
+                        if (orderType == 'all') {
+                          setOrderType('pending')
+                          getOrderFromStore('pending');
+                        } else if (orderType == 'pending') {
+                          setOrderType('completed')
+                          getOrderFromStore('completed');
+                        } else if (orderType == 'completed') {
+                          setOrderType('paid')
+                          getOrderFromStore('paid');
+                        } else {
+                          setOrderType('all')
+                          getOrderFromStore('all');
+                        }
+
+                      }}>Status <span className='bg-white text-black rounded-md px-1'>{orderType.substring(0, 3)}</span> </th>
+                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Edit / Del</th>
                     </tr>
                   </thead>
                   <tbody className="text-gray-700">
                     {allOrderData && allOrderData.map((order, index) => (
-                      <tr key={order.orderId} id={order.orderId}>
+                      <tr key={order.orderId} id={order.orderId} className={index % 2 != 0 ? "bg-gray-200" : ""}>
                         <td className="text-left py-3 px-4">{order.orderId}</td>
                         <td className="w-2/3 text-left py-3 px-4">
-                          <table class="border border-gray-300 m-0 table-auto bg-white rounded-lg shadow-md">
-                            <thead class="bg-gray-50">
+                          <table className="border border-gray-300 m-0 table-auto bg-white rounded-lg shadow-md font-light">
+                            <thead className="bg-gray-100">
                               <tr>
-                                <th class="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-2">Item Name</th>
-                                <th class="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-2">Quantity</th>
-                                <th class="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-2">Size</th>
+                                <th className="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-1 px-2">Name</th>
+                                <th className="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-1 px-2">Quantity</th>
+                                <th className="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-1 px-2">Size</th>
                               </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                              {order.items_desc.map((ele) => {
-                                return <tr>
-                                  <td class="text-sm font-medium text-gray-900 px-2">{ele.item_name}</td>
-                                  <td class="text-sm text-gray-500 px-2">{ele.item_quantity}</td>
-                                  <td class="text-sm text-gray-500 px-2">{ele.item_plate}</td>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                              {order.items_desc.map((ele, idx) => {
+                                return <tr className={`${idx % 2 != 0 ? "bg-gray-50" : ""}`} key={idx}>
+                                  <td className="text-sm font-medium text-gray-900 px-2">{ele.item_name}</td>
+                                  <td className="text-sm text-gray-500 px-2">{ele.item_quantity}</td>
+                                  <td className="text-sm text-gray-500 px-2">{ele.item_plate}</td>
                                 </tr>
                               })}
                             </tbody>
                           </table>
                         </td>
-                        <td className="text-left py-3 px-4">{order.name}<br /> {order.phone_number}</td>
+                        <td className="text-left py-3 px-4 whitespace-nowrap w-auto">{order.name}<br /> {order.phone_number}</td>
                         <td className="text-left py-3 px-4">{order.total_bill}</td>
-                        <td className="text-left py-3 px-4">{order.date}</td>
+                        <td className="text-left py-3 px-4 whitespace-nowrap w-auto">{order.date.split("T")[0]} <br /> {order.date.split("T")[1].substr(0, 5)}</td>
                         <td className="text-left py-3 px-4">{order.table_number}</td>
-                        <td className="text-left py-3 px-4">{order.status}</td>
+                        <td className="text-left py-3 px-4 relative group" type="button">
+                          <OrderStatusTooltip status={order.status} id={order.orderId} fun={getOrderFromStore} />
+                        </td>
+
                         <td className="text-left py-3 px-4 ">
                           <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400' onClick={updateItemTriger}>edit</span> &nbsp;
-                          <span className='hover:text-red-500 hover:underline cursor-pointer text-red-400' onClick={delItemFromStore}>del</span>
+                          <span className='hover:text-red-500 hover:underline cursor-pointer text-red-400' onClick={delOrder}>del</span>
                         </td>
                       </tr>
                     ))}

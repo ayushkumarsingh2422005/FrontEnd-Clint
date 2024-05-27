@@ -21,6 +21,11 @@ export default function Root() {
                     </Link>
                 </div>
             </section>
+            <div className='w-12 fixed right-2 top-2 flex flex-col' onClick={() => console.log("object")}>
+                <Link to={'/admin'} className='w-12 fixed right-2 top-2'>
+                    <img src={adminProfile} alt="admin profile" className='rounded-full bg-slate-600' />
+                </Link>
+            </div>
         </>
     );
 }
