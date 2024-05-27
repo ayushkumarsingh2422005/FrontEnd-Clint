@@ -16,16 +16,11 @@ export default function Root() {
                     <Link to={'/admin/login'}>
                         <button className='border py-2 px-4 rounded-md hover:shadow-lg transition-shadow ease-linear mr-2 bg-secondary text-white'>Admin</button>
                     </Link>
-                    <Link to={'/home'}>
+                    <Link to={'/login'}>
                         <button className='border border-secondary p-2 rounded-md hover:shadow-lg transition-shadow ease-linear'>Employee</button>
                     </Link>
                 </div>
             </section>
-            <div className='w-12 fixed right-2 top-2 flex flex-col' onClick={() => console.log("object")}>
-                <Link to={'/admin'} className='w-12 fixed right-2 top-2'>
-                    <img src={adminProfile} alt="admin profile" className='rounded-full bg-slate-600' />
-                </Link>
-            </div>
         </>
     );
 }
