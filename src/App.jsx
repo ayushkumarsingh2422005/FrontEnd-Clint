@@ -1,22 +1,25 @@
 import Root from './pages/Root'
 import Home from './pages/Home'
-import Login from './pages/admin/Login'
+import AdminLogin from './pages/admin/Login'
+import EmployeeLogin from './pages/Login'
 import { BrowserRouter , Routes , Route } from 'react-router-dom'
 import Employee from './pages/employee/Employee'
 import PageNotFound from './pages/PageNotFound'
 import ManageItems from './pages/admin/ManageItems'
 import Dashbord from './pages/admin/AdminHome/Dashbord'
 import ManageOrders from './pages/admin/ManageOrders'
+
 function App() {
   return (
     <BrowserRouter>
     <Routes>
       <Route path='/' element={<Root/>} />
       <Route path='/home' element={<Home />} />
+      <Route path='/login' element={<EmployeeLogin />} />
       <Route path='/employee' element={<Employee/>} />
       <Route path='/admin' >
         <Route path='' element={<Dashbord/>}/>
-        <Route path='login' element={<Login/>}/>
+        <Route path='login' element={<AdminLogin/>}/>
         <Route path='manage-items' element={<ManageItems/>}/>
         <Route path='manage-orders' element={<ManageOrders/>}/>
       </Route>

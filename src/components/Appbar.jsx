@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { MdRestaurantMenu } from "react-icons/md";
+import { MdDashboard, MdRestaurantMenu } from "react-icons/md";
 import { orderContext } from "../pages/Home";
 import { FaPowerOff } from "react-icons/fa";
 import DialogBox from "./DialogBox";
@@ -17,6 +17,7 @@ export default function Appbar(){
         <div className="bg-blue-600 text-white px-6 md:px-12 lg:px-24 py-4 border-b flex items-center gap-x-2 justify-between">
         <h1 className="text-4xl font-semibold">AFFECTIONARY</h1>
         <div className="flex items-center gap-x-4">
+        <MdDashboard className="text-4xl hover:text-black border-2 border-blue-800 p-1 hover:shadow-md cursor-pointer" />
         <MdRestaurantMenu className="text-4xl hover:text-black border-2 border-blue-800 p-1 hover:shadow-md cursor-pointer" onClick={() => setShowSideNav(true)} />
         <FaPowerOff className="text-4xl p-2 hover:text-red-400 border-2 border-blue-800 cursor-pointer hover:shadow-md" onClick={()=>setShowDialog(true)} />
         </div>
