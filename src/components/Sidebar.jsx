@@ -53,6 +53,7 @@ export default function Sidebar() {
         "phone_number": userInfo?.number,
         "restaurant": "swiggy",
         "table_number": userInfo?.table,
+        "status":"pending",
         "items_desc": orders.map((order) => ({
           "item_id": order.itemID,
           "item_name": order.itemName,
