@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaBars, FaMoneyBill, FaUtensils, FaWindowClose } from 'react-icons/fa';
-import { FaPlateWheat } from 'react-icons/fa6';
-import { MdAdd, MdDashboard, MdLogout } from 'react-icons/md';
+import { FaPeopleGroup, FaPlateWheat } from 'react-icons/fa6';
+import { MdAdd, MdDashboard, MdEmojiPeople, MdLogout } from 'react-icons/md';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import admin_logined from '../utils/admin_logined';
 
@@ -31,8 +31,8 @@ export default function AdminNev() {
                         <FaUtensils /> &nbsp; Orders
 
                     </Link>
-                    <Link to="forms.html" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaMoneyBill /> &nbsp; Bills
+                    <Link to="/admin/manage-employe" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <FaPeopleGroup /> &nbsp; Employe Details
                     </Link>
                     <div className="p-6">
                         <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={() => { localStorage.clear(); navigate('/admin/login') }}>
@@ -66,8 +66,8 @@ export default function AdminNev() {
                         <FaUtensils /> &nbsp; Orders
 
                     </Link>
-                    <Link to="forms.html" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaMoneyBill /> &nbsp; Bills
+                    <Link to="/admin/manage-employe" className={location.pathname == '/bills' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <FaPeopleGroup /> &nbsp; Employe Details
                     </Link> 
                     <div className="p-6">
                         <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={() => { localStorage.clear(); navigate('/admin/login') }}>

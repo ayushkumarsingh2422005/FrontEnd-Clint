@@ -5,6 +5,8 @@ import { MdAdd, MdDelete, MdEdit } from 'react-icons/md'
 import { FaXmark } from 'react-icons/fa6'
 import OrderStatusTooltip from '../../components/OrderStatusTooltip'
 import { PieChart } from '@mui/x-charts/PieChart';
+import ManageOrderItemEdit from '../../components/ManageOrderItemEdit'
+import { Link } from 'react-router-dom'
 
 export default function ManageOrders() {
   const [addItemState, setAddItemState] = useState(false);
@@ -218,7 +220,7 @@ export default function ManageOrders() {
                         }
 
                       }}>Status <span className='bg-white text-black rounded-md px-1'>{orderType.substring(0, 3)}</span> </th>
-                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Edit / Del</th>
+                      <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Invoice / Del</th>
                     </tr>
                   </thead>
                   <tbody className="text-gray-700">
@@ -226,24 +228,7 @@ export default function ManageOrders() {
                       <tr key={order.orderId} id={order.orderId} className={index % 2 != 0 ? "bg-gray-200" : ""}>
                         <td className="text-left py-3 px-4">{order.orderId}</td>
                         <td className="w-2/3 text-left py-3 px-4">
-                          <table className="border border-gray-300 m-0 table-auto bg-white rounded-lg shadow-md font-light">
-                            <thead className="bg-gray-100">
-                              <tr>
-                                <th className="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-1 px-2">Name</th>
-                                <th className="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-1 px-2">Quantity</th>
-                                <th className="text-left text-xs font-semibold text-gray-700 uppercase tracking-wider p-1 px-2">Size</th>
-                              </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200">
-                              {order.items_desc.map((ele, idx) => {
-                                return <tr className={`${idx % 2 != 0 ? "bg-gray-50" : ""}`} key={idx}>
-                                  <td className="text-sm font-medium text-gray-900 px-2">{ele.item_name}</td>
-                                  <td className="text-sm text-gray-500 px-2">{ele.item_quantity}</td>
-                                  <td className="text-sm text-gray-500 px-2">{ele.item_plate}</td>
-                                </tr>
-                              })}
-                            </tbody>
-                          </table>
+                          <ManageOrderItemEdit items_desc={order.items_desc} id={order.orderId} fun={getOrderFromStore} />
                         </td>
                         <td className="text-left py-3 px-4 whitespace-nowrap w-auto">{order.name}<br /> {order.phone_number}</td>
                         <td className="text-left py-3 px-4">{order.total_bill}</td>
@@ -254,7 +239,9 @@ export default function ManageOrders() {
                         </td>
 
                         <td className="text-left py-3 px-4 ">
-                          <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400' onClick={updateItemTriger}>edit</span> &nbsp;
+                          <Link to={`/admin/invoice/${order.orderId}`} >
+                            <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400'>invoice</span>
+                          </Link> &nbsp;
                           <span className='hover:text-red-500 hover:underline cursor-pointer text-red-400' onClick={delOrder}>del</span>
                         </td>
                       </tr>
