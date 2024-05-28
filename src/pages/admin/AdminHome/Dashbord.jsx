@@ -47,11 +47,9 @@ export default function Dashbord() {
                                 </div>
                             </div>
                         </div>
-
-                       
                     </main>
                 </div>
-            </div >
+            </div>
         </>
     )
 }
