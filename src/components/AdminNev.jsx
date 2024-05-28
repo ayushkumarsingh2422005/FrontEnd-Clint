@@ -4,6 +4,7 @@ import { FaPeopleGroup, FaPlateWheat } from 'react-icons/fa6';
 import { MdAdd, MdDashboard, MdEmojiPeople, MdLogout } from 'react-icons/md';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import admin_logined from '../utils/admin_logined';
+import { ToastContainer } from 'react-toastify';
 
 export default function AdminNev() {
     admin_logined()
@@ -16,6 +17,7 @@ export default function AdminNev() {
     // }, []);
     return (
         <>
+            <ToastContainer className='w-4/5 mx-auto mt-16' />
             <aside className="relative bg-sidebar h-screen w-64 sm:block shadow-xl hidden">
                 <div className="p-6">
                     <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin </a>

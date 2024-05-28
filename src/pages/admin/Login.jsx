@@ -17,6 +17,7 @@ export default function Login() {
             if (response.ok) {
                 return response.json();
             }
+            showToastMessage("error", "AAuthentication Failed");
             throw new Error('Authentication failed');
         }).then(data => {
             console.log(data);
@@ -26,7 +27,8 @@ export default function Login() {
             localStorage.setItem("adminPass", adminPass);
             navigate('/admin'); // Redirect to /admin
         }).catch(error => {
-            console.log('Error:', error);
+            // console.log('Error:', error);
+            showToastMessage("error", error);
             // Remain on the same page or handle error appropriately
         });
     }

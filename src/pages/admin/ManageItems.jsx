@@ -3,6 +3,7 @@ import AdminNev from '../../components/AdminNev'
 import { FaEdit, FaPen } from 'react-icons/fa'
 import { MdAdd, MdDelete, MdEdit } from 'react-icons/md'
 import { FaXmark } from 'react-icons/fa6'
+import showToastMessage from '../../utils/toast_message'
 
 export default function ManageItems() {
   const [addItemState, setAddItemState] = useState(false);
@@ -63,12 +64,13 @@ export default function ManageItems() {
     });
 
     if (!response.ok) {
+      showToastMessage("error", response.statusText);
       throw new Error(`Error: ${response.statusText}`);
     }
 
     const data = await response.json();
     console.log(data);
-    alert('Item added successfully');
+    showToastMessage('success', 'Item Added Sucessfully')
     // Optionally, update the list of items
     getItemFromStore();
   };
@@ -122,10 +124,12 @@ export default function ManageItems() {
     console.log('Response data:', data); // Log the response data
 
     if (!response.ok) {
+      showToastMessage("error", response.statusText);
       throw new Error(`Error: ${response.statusText}`);
     }
 
-    alert('Item updated successfully');
+    // alert('Item updated successfully');
+    showToastMessage('success', 'Item Updated Sucessfully')
     // Optionally, update the list of items
     getItemFromStore();
   };
@@ -154,6 +158,7 @@ export default function ManageItems() {
     setAddItemState(!addItemState);
     console.log(ele);
   }
+
   const getItemFromStore = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/dishes/getall`);
@@ -165,9 +170,11 @@ export default function ManageItems() {
       const data = await response.json();
       console.log(data);
       setAllItemData(data);
+      showToastMessage('success', 'Item List Updated')
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      alert('There was a problem retrieving the items: ' + error.message);
+      // console.error('There was a problem with the fetch operation:', error);
+      // alert('There was a problem retrieving the items: ' + error.message);
+      showToastMessage("error", 'There was a problem retrieving the items: ' + error.message);
     }
   };
 
@@ -180,17 +187,19 @@ export default function ManageItems() {
       });
 
       if (!response.ok) {
+        showToastMessage("error", response.statusText);
         throw new Error(`Error: ${response.statusText}`);
       }
 
       const data = await response.json();
       console.log(data);
       console.log(id);
-
+      showToastMessage('success', 'Item Deleted Sucessfully')
       getItemFromStore();
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      alert('There was a problem deleting the item: ' + error.message);
+      // console.error('There was a problem with the fetch operation:', error);
+      // alert('There was a problem deleting the item: ' + error.message);
+      showToastMessage("error", 'There was a problem deleting the item: ' + error.messaget);
     }
   };
 
@@ -203,11 +212,13 @@ export default function ManageItems() {
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setAllItemCount(data);
+      showToastMessage('success', 'Sell report ready')
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      alert('There was a problem retrieving the items: ' + error.message);
+      // console.error('There was a problem with the fetch operation:', error);
+      // alert('There was a problem retrieving the items: ' + error.message);
+      showToastMessage("error", 'There was a problem retrieving the items: ' + error.message);
     }
   };
 

@@ -5,6 +5,7 @@ import OrderStatusTooltip from '../../components/OrderStatusTooltip'
 import { PieChart } from '@mui/x-charts/PieChart';
 import ManageOrderItemEdit from '../../components/ManageOrderItemEdit'
 import { Link } from 'react-router-dom'
+import showToastMessage from '../../utils/toast_message';
 
 export default function ManageOrders() {
   const [allOrderData, setAllOrderData] = useState();
@@ -16,15 +17,18 @@ export default function ManageOrders() {
       const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/getall/${type}`);
 
       if (!response.ok) {
+        showToastMessage("error", response.statusText);
         throw new Error(`Error: ${response.statusText}`);
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setAllOrderData(data);
+      showToastMessage('success', 'Orders Updated')
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
-      alert('There was a problem retrieving the items: ' + error.message);
+      showToastMessage("error", error.message);
+      // alert('There was a problem retrieving the items: ' + error.message);
     }
   };
 
@@ -37,6 +41,7 @@ export default function ManageOrders() {
       });
 
       if (!response.ok) {
+        showToastMessage("error", response.statusText);
         throw new Error(`Error: ${response.statusText}`);
       }
 
@@ -45,9 +50,10 @@ export default function ManageOrders() {
       console.log(id);
 
       getOrderFromStore(orderType);
+      showToastMessage('success', 'Order Deleted Sucessfully')
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
-      alert('There was a problem deleting the item: ' + error.message);
+      showToastMessage("error", error.message);
     }
   };
 

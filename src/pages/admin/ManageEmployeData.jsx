@@ -37,10 +37,12 @@ export default function ManageEmployeData() {
         console.log('Response data:', data); // Log the response data
 
         if (!response.ok) {
+            showToastMessage("error", response.statusText);
             throw new Error(`Error: ${response.statusText}`);
         }
 
-        alert('Item updated successfully');
+        // alert('Item updated successfully');
+        showToastMessage('success', 'Salery Updated of Employee ID '+editElementId)
         // Optionally, update the list of items
         getEmployeData();
     };
@@ -61,15 +63,18 @@ export default function ManageEmployeData() {
             const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/employe-data/getall/now`);
 
             if (!response.ok) {
+                showToastMessage("error", response.statusText);
                 throw new Error(`Error: ${response.statusText}`);
             }
 
             const data = await response.json();
             console.log(data);
             setAllEmployeData(data);
+            showToastMessage('success', 'Data Refreshed')
         } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-            alert('There was a problem retrieving the items: ' + error.message);
+            // console.error('There was a problem with the fetch operation:', error);
+            // alert('There was a problem retrieving the items: ' + error.message);
+            showToastMessage("error", 'There was a problem retrieving the items: ' + error.message);
         }
     };
 
