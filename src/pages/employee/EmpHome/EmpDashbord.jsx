@@ -6,7 +6,6 @@ import { FaCalendarPlus } from 'react-icons/fa'
 export default function EmpDashbord() {
   const DTNOW = new Date();
   const markMyAttendnce = () => {
-    console.log(JSON.parse(localStorage.getItem('credentials')).id)
     fetch(`${import.meta.env.VITE_APP_URL}/api/employe-data/attendence/${JSON.parse(localStorage.getItem('credentials')).id}`, {
       method: 'PUT',
       headers: {
@@ -15,7 +14,7 @@ export default function EmpDashbord() {
       body: JSON.stringify({ id: 'your_id_value' })
     })
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data =>null)
       .catch(error => console.error('Error:', error));
   }
   return (

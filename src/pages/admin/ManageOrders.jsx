@@ -24,7 +24,6 @@ export default function ManageOrders() {
       const data = await response.json();
       // console.log(data);
       setAllOrderData(data);
-      showToastMessage('success', 'Orders Updated')
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       showToastMessage("error", error.message);

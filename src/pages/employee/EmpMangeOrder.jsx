@@ -20,7 +20,6 @@ export default function EmpMangeOrder() {
             }
 
             const data = await response.json();
-            console.log(data);
             setAllOrderData(data);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
@@ -41,8 +40,6 @@ export default function EmpMangeOrder() {
             }
 
             const data = await response.json();
-            console.log(data);
-            console.log(id);
 
             getOrderFromStore(orderType);
         } catch (error) {

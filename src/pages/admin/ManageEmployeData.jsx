@@ -69,9 +69,7 @@ export default function ManageEmployeData() {
             }
 
             const data = await response.json();
-            console.log(data);
             setAllEmployeData(data);
-            showToastMessage('success', 'Data Refreshed')
         } catch (error) {
             // console.error('There was a problem with the fetch operation:', error);
             // alert('There was a problem retrieving the items: ' + error.message);
