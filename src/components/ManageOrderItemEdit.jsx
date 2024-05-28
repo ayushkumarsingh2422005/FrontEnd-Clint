@@ -41,7 +41,7 @@ export default function ManageOrderItemEdit({ items_desc, id, fun }) {
     return (
         <>
             <table
-                className="border border-gray-300 m-0 table-auto bg-white rounded-lg shadow-md font-light"
+                className="border border-gray-300 m-0 table-auto bg-white rounded-lg shadow-md font-light cursor-pointer"
                 onClick={() => setEditOrderMenuState(!editOrderMenuState)}
             >
                 <thead className="bg-gray-100">
@@ -65,42 +65,44 @@ export default function ManageOrderItemEdit({ items_desc, id, fun }) {
             </table>
 
             <div
-                className={`p-4 h-full flex justify-center items-center flex-col fixed left-0 bg-red-50 w-full z-50 ${editOrderMenuState ? "top-0" : "top-full"}`}
-            >
-                <FaXmark
-                    className='top-3 right-3 absolute text-xl'
-                    onClick={() => setEditOrderMenuState(!editOrderMenuState)}
-                />
-                <div className='w-full text-center text-4xl'>Logo</div>
-                <div className='p-2 text-2xl container border border-solid'>
-                    <div>
-                        <table className="border border-gray-300 m-0 table-auto bg-white rounded-lg shadow-md font-light">
-                            <thead className="bg-gray-100">
-                                <tr>
-                                    <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
-                                    <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Quantity</th>
-                                    <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Size</th>
+            className={`p-4 h-full flex justify-center items-center flex-col fixed left-0 bg-gray-100 w-full z-50 transition-all duration-300 ease-in-out ${editOrderMenuState ? "top-0" : "top-full"}`}
+        >
+            <FaXmark
+                className='top-3 right-3 absolute text-2xl cursor-pointer'
+                onClick={() => setEditOrderMenuState(!editOrderMenuState)}
+            />
+            <div className='w-full text-center text-5xl font-bold mb-8'>AFFECTIONARY</div>
+            <div className='w-full lg:w-3/4 p-4 text-xl container border border-gray-300 rounded-lg bg-white shadow-lg'>
+                <div className='overflow-x-auto'>
+                    <table className="border-collapse w-full bg-white rounded-lg shadow-md">
+                        <thead className="bg-gray-200">
+                            <tr>
+                                <th className="py-3 px-4 text-left uppercase font-semibold text-sm">Name</th>
+                                <th className="py-3 px-4 text-left uppercase font-semibold text-sm">Quantity</th>
+                                <th className="py-3 px-4 text-left uppercase font-semibold text-sm">Size</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200" ref={ref}>
+                            {items_desc.map((ele, idx) => (
+                                <tr className={`${idx % 2 !== 0 ? "bg-gray-50" : "bg-white"}`} key={idx} id={ele.item_id}>
+                                    <td className="py-3 px-4"><input type="text" defaultValue={ele.item_name} className='w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none' /></td>
+                                    <td className="py-3 px-4"><input type="number" defaultValue={ele.item_quantity} className='w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none' /></td>
+                                    <td className="py-3 px-4"><select defaultValue={ele.item_plate} className='w-full bg-transparent border-b border-gray-300 focus:border-blue-500 focus:outline-none'>
+                                        <option value="full">Full</option>
+                                        <option value="half">Half</option>
+                                    </select></td>
                                 </tr>
-                            </thead>
-                            <tbody className="bg-white divide-y divide-gray-200 text-3xl" ref={ref}>
-                                {items_desc.map((ele, idx) => (
-                                    <tr className={`${idx % 2 !== 0 ? "bg-gray-50" : ""}`} key={idx} id={ele.item_id}>
-                                        <td className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm"><input type="text" defaultValue={ele.item_name} className='w-full bg-transparent' /></td>
-                                        <td className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm" ><input type="number" defaultValue={ele.item_quantity} className='w-full bg-transparent' /></td>
-                                        <td className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm" ><select defaultValue={ele.item_plate} className='bg-transparent'>
-                                            <option value="full" >full</option>
-                                            <option value="half">half</option>
-                                        </select></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className='flex items-center gap-2 text-4xl bg-blue-400 rounded-md p-2 w-min' onClick={updateData}>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className='flex justify-center mt-6'>
+                    <button className='flex items-center gap-2 text-lg font-semibold bg-blue-500 text-white rounded-md px-6 py-2 transition-transform transform hover:scale-105 hover:bg-blue-600 active:scale-95' onClick={updateData}>
                         <FaSave /> Save
-                    </div>
+                    </button>
                 </div>
             </div>
+        </div>
         </>
 
     )
