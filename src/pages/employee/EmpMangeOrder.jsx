@@ -6,6 +6,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 // import ManageOrderItemEdit from '../../components/ManageOrderItemEdit'
 import { Link } from 'react-router-dom'
 import OrderStatusTooltip from '../../components/OrderStatusTooltip';
+import showToastMessage from '../../utils/toast_message';
 
 export default function EmpMangeOrder() {
     const [allOrderData, setAllOrderData] = useState();
@@ -16,40 +17,20 @@ export default function EmpMangeOrder() {
             const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/getall/${type}`);
 
             if (!response.ok) {
+                showToastMessage("error", response.statusText);
                 throw new Error(`Error: ${response.statusText}`);
             }
 
             const data = await response.json();
-            console.log(data);
+            // console.log(data);
             setAllOrderData(data);
+            showToastMessage('success', 'Updated')
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
             alert('There was a problem retrieving the items: ' + error.message);
         }
     };
 
-    const delOrder = async (e) => {
-        const id = e.target.parentElement.parentElement.id;
-
-        try {
-            const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/del/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            console.log(data);
-            console.log(id);
-
-            getOrderFromStore(orderType);
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-            alert('There was a problem deleting the item: ' + error.message);
-        }
-    };
 
 
     useEffect(() => {
@@ -128,7 +109,7 @@ export default function EmpMangeOrder() {
                                                 }
 
                                             }}>Status <span className='bg-white text-black rounded-md px-1'>{orderType.substring(0, 3)}</span> </th>
-                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Invoice / Del</th>
+                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Invoice</th>
                                         </tr>
                                     </thead>
                                     <tbody className="text-gray-700">
@@ -171,7 +152,6 @@ export default function EmpMangeOrder() {
                                                     <Link to={`/admin/invoice/${order.orderId}`} >
                                                         <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400'>invoice</span>
                                                     </Link> &nbsp;
-                                                    <span className='hover:text-red-500 hover:underline cursor-pointer text-red-400' onClick={delOrder}>del</span>
                                                 </td>
                                             </tr>
                                         ))}

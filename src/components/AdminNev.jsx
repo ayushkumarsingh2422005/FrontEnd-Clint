@@ -20,7 +20,7 @@ export default function AdminNev() {
             <ToastContainer className='w-4/5 mx-auto mt-16' />
             <aside className="relative bg-sidebar h-screen w-64 sm:block shadow-xl hidden">
                 <div className="p-6">
-                    <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin </a>
+                    <Link to="/" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin </Link>
                 </div>
                 <nav className="text-white text-base font-semibold pt-3">
                     <Link to="/admin" className={location.pathname == '/admin' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
@@ -51,7 +51,7 @@ export default function AdminNev() {
 
             <header className="w-full bg-sidebar py-5 px-6 sm:hidden block sticky top-0">
                 <div className="flex items-center justify-between">
-                    <a href="index.html" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</a>
+                    <Link to="/" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Admin</Link>
                     <button className="text-white text-3xl focus:outline-none" onClick={() => setIsOpen(!isOpen)}>
                         {/* @click="isOpen = !isOpen" */}
                         {!isOpen && <FaBars />}
