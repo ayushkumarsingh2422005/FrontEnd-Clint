@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { orderContext } from "../pages/Home";
 import { FaXmark } from "react-icons/fa6";
 import OrderListItem from "./OrderListItem";
-import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import showToastMessage from "../utils/toast_message";
 import placeOrder from "../utils/place_order";

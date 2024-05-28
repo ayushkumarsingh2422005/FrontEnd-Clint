@@ -7,11 +7,13 @@ import { ToastContainer } from "react-toastify";
 import showToastMessage from "../utils/toast_message";
 import employeeLogin from "../utils/employee_login";
 import { useNavigate } from "react-router-dom";
+import Bill from "../components/Bill";
 
 export const orderContext = createContext();
 
 export default function Home() {
   const [showSideNav, setShowSideNav] = useState(false);
+  const [bill,setBill] = useState(null);
   const [userInfo, setUserInfo] = useState({ name: '', number: '', table: '' });
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [orderItem, setOrderItem] = useState({
@@ -131,15 +133,25 @@ export default function Home() {
     }
 
 }
+
+  const getBill = async(orderId)=>{
+      const resp = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/get/${orderId}`);
+      const data = await resp.json();
+      console.log(data.items_desc[0].prize);
+      setBill(data);
+    }
   return (
     <main className="min-h-screen max-w-screen overflow-hidden">
       <ToastContainer className='w-4/5 mx-auto mt-16' />
-      <orderContext.Provider value={{ Visible: [showSideNav, setShowSideNav], Orders: [orders, setOrders], user: [setUserInfo, userInfo, errors, onInfoSubmit] , kot:[KOT,setKOT]}}>
+      <orderContext.Provider value={{ Bill:[bill,setBill], Visible: [showSideNav, setShowSideNav], Orders: [orders, setOrders], user: [setUserInfo, userInfo, errors, onInfoSubmit] , kot:[KOT,setKOT]}}>
         <Appbar />
         {showInfoModal ? (
           <UserInfo />
         ) : (
           <>
+          {bill &&
+          <Bill/>
+          }
          {KOT && KOT.length > 0 && (
                 <div className="bg-gray-100 w-3/4 mx-auto p-6 mt-4">
                     <p>Your Order(s) is/are arriving soon</p>
@@ -147,7 +159,7 @@ export default function Home() {
                         {KOT.map((orderId, index) => (
                             <li key={index} className="flex justify-between py-1">
                                 <p className="text-secondary font-bold">Order ID: #{orderId}</p>
-                                <a className="text-blue-600" href={`/order/${orderId}`}>view</a>
+                                <button className="text-blue-600" onClick={()=>getBill(orderId)}>view</button>
                             </li>
                         ))}
                     </ul>
