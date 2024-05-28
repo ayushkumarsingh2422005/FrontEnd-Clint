@@ -168,9 +168,7 @@ export default function ManageItems() {
       }
 
       const data = await response.json();
-      console.log(data);
       setAllItemData(data);
-      showToastMessage('success', 'Item List Updated')
     } catch (error) {
       // console.error('There was a problem with the fetch operation:', error);
       // alert('There was a problem retrieving the items: ' + error.message);
@@ -192,8 +190,6 @@ export default function ManageItems() {
       }
 
       const data = await response.json();
-      console.log(data);
-      console.log(id);
       showToastMessage('success', 'Item Deleted Sucessfully')
       getItemFromStore();
     } catch (error) {
@@ -214,7 +210,6 @@ export default function ManageItems() {
       const data = await response.json();
       // console.log(data);
       setAllItemCount(data);
-      showToastMessage('success', 'Sell report ready')
     } catch (error) {
       // console.error('There was a problem with the fetch operation:', error);
       // alert('There was a problem retrieving the items: ' + error.message);

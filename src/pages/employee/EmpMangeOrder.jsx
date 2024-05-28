@@ -22,7 +22,6 @@ export default function EmpMangeOrder() {
             }
 
             const data = await response.json();
-            // console.log(data);
             setAllOrderData(data);
             showToastMessage('success', 'Updated')
         } catch (error) {
@@ -31,8 +30,26 @@ export default function EmpMangeOrder() {
         }
     };
 
+    const delOrder = async (e) => {
+        const id = e.target.parentElement.parentElement.id;
 
+        try {
+            const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/del/${id}`, {
+                method: 'DELETE',
+            });
 
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            getOrderFromStore(orderType);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            alert('There was a problem deleting the item: ' + error.message);
+        }
+    };
     useEffect(() => {
         getOrderFromStore(orderType);
     }, []);

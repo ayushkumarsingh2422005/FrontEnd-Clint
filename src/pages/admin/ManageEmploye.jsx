@@ -59,7 +59,6 @@ export default function ManageEmploye() {
         }
 
         const data = await response.json();
-        console.log(data);
         showToastMessage('success', 'Employee Added Sucessfully')
         // Optionally, update the list of items
         getEmployeData();
