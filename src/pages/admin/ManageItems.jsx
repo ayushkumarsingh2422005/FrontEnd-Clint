@@ -16,6 +16,7 @@ export default function ManageItems() {
   const [zomatoHalfPrice, setZomatoHalfPrice] = useState("");
   const [editElementId, setEditElementId] = useState();
   const [allItemData, setAllItemData] = useState();
+  const [allItemCount, setAllItemCount] = useState();
   const [editMode, setEditMode] = useState(false);
 
 
@@ -193,9 +194,26 @@ export default function ManageItems() {
     }
   };
 
+  const getItemInfo = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/dishes/order-count`);
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setAllItemCount(data);
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      alert('There was a problem retrieving the items: ' + error.message);
+    }
+  };
 
   useEffect(() => {
     getItemFromStore();
+    getItemInfo();
   }, []);
   return (
     <>
@@ -214,7 +232,7 @@ export default function ManageItems() {
             <div className="flex flex-wrap mt-6">
               <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
                 <p className="text-xl pb-3 flex items-center">
-                  <i className="fas fa-plus mr-3"></i> Monthly Reports
+                  <i className="fas fa-plus mr-3"></i> Reports
                 </p>
                 <div className="p-6 bg-white">
                   <b>Total Item In store</b> : {allItemData && allItemData.length}
@@ -222,10 +240,27 @@ export default function ManageItems() {
               </div>
               <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                 <p className="text-xl pb-3 flex items-center">
-                  <i className="fas fa-check mr-3"></i> Resolved Reports
+                  <i className="fas fa-check mr-3"></i> Sells Report
                 </p>
                 <div className="p-6 bg-white">
-                  <canvas id="chartTwo" width="400" height="200"></canvas>
+                  <table className="min-w-full bg-white">
+                    <thead className="bg-gray-800 text-white">
+                      <tr>
+                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">ID</th>
+                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
+                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-700 max-h-[30vh]">
+                      {allItemCount && allItemCount.map((item, index) => (
+                        <tr key={item.dishId}>
+                          <td className="text-left py-3 px-4">{item.dishId}</td>
+                          <td className="text-left py-3 px-4">{item.name}</td>
+                          <td className="text-left py-3 px-4">{item.times_ordered}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
