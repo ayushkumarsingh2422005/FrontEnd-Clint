@@ -22,7 +22,7 @@ export default function EmployeeNev() {
                     <Link to="/employee/manage-orders" className={location.pathname == '/employee/manage-orders' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaUtensils /> &nbsp; Orders
                     </Link>
-                    <Link to="/employee/attendence" className={location.pathname == '/employee/attendence' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                    <Link to={"/employee/attendence/"+JSON.parse(localStorage.getItem('credentials')).id} className={location.pathname == '/employee/attendence' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaCalendarCheck /> &nbsp; Attendence
                     </Link>
 
@@ -54,7 +54,7 @@ export default function EmployeeNev() {
                     <Link to="/employee/manage-orders" className={location.pathname == '/employee/manage-orders' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaUtensils /> &nbsp; Orders
                     </Link>
-                    <Link to="/employee/attendence" className={location.pathname == '/employee/attendence' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                    <Link to={"/employee/attendence/"+JSON.parse(localStorage.getItem('credentials')).id} className={location.pathname == '/employee/attendence' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaCalendarCheck /> &nbsp; Attendence
                     </Link>
                     

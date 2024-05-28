@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { FaPrint } from 'react-icons/fa';
 import { MdPrint } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';

@@ -12,6 +12,7 @@ import Invoice from './pages/admin/Invoice'
 import EmpDashbord from './pages/employee/EmpHome/EmpDashbord'
 import EmpMangeOrder from './pages/employee/EmpMangeOrder'
 import ManageEmployeData from './pages/admin/ManageEmployeData'
+import AttendenceView from './pages/AttendenceView'
 // import EmpDashbord from './pages/employee/EmpDashbord'
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
           <Route path='/employee'>
             <Route path='' element={<EmpDashbord />} />
             <Route path='manage-orders' element={<EmpMangeOrder />} />
-            <Route path='attendence' element={<EmpDashbord />} />
+            <Route path='attendence/:id' element={<AttendenceView />} />
           </Route>
           <Route path='/admin' >
             <Route path='' element={<Dashbord />} />
