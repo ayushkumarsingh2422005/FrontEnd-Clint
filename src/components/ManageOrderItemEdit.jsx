@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { FaCut, FaSave } from 'react-icons/fa';
 import { FaXmark } from 'react-icons/fa6';
+import showToastMessage from '../utils/toast_message';
 
 export default function ManageOrderItemEdit({ items_desc, id, fun }) {
     const [editOrderMenuState, setEditOrderMenuState] = useState(false);
@@ -32,11 +33,12 @@ export default function ManageOrderItemEdit({ items_desc, id, fun }) {
         console.log('Response data:', data); // Log the response data
 
         if (!response.ok) {
+            showToastMessage("error", response.statusText);
             throw new Error(`Error: ${response.statusText}`);
         }
         fun('all');
         setEditOrderMenuState(false);
-        alert(`Updated Menu of order id ${id}`);
+        showToastMessage('success', `Order of ID ${id} updated sucessfully`)
     }
     return (
         <>

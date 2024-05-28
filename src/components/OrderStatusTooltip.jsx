@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import showToastMessage from '../utils/toast_message';
 
 export default function OrderStatusTooltip({ status, id, fun }) {
     const [toolTipState, setToolTipState] = useState(false);
@@ -19,11 +20,12 @@ export default function OrderStatusTooltip({ status, id, fun }) {
         console.log('Response data:', data); // Log the response data
 
         if (!response.ok) {
+            showToastMessage("error", response.statusText);
             throw new Error(`Error: ${response.statusText}`);
         }
         setCurrentStatus(newStatus);
         fun('all');
-        alert(`Updated status of order id ${id} to ${newStatus}`);
+        showToastMessage('success', `Updated status of order id ${id} to ${newStatus}`)
 
     };
 

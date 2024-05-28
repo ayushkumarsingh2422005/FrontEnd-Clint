@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import AdminNev from '../../components/AdminNev'
 import { MdAdd } from 'react-icons/md'
 import { FaXmark } from 'react-icons/fa6'
+import showToastMessage from '../../utils/toast_message';
 
 export default function ManageEmploye() {
     const [employeState, setEmployeState] = useState(false);
@@ -53,12 +54,13 @@ export default function ManageEmploye() {
         });
 
         if (!response.ok) {
+            showToastMessage("error", response.statusText);
             throw new Error(`Error: ${response.statusText}`);
         }
 
         const data = await response.json();
         console.log(data);
-        alert('Employee added successfully');
+        showToastMessage('success', 'Employee Added Sucessfully')
         // Optionally, update the list of items
         getEmployeData();
     };
@@ -71,30 +73,6 @@ export default function ManageEmploye() {
             mail: employeMail
         };
 
-        // try {
-        //   const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/dishes/update/${editElementId}`, {
-        //     method: 'PUT',
-        //     headers: {
-        //       'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(item_data)
-        //   });
-
-        //   console.log('Response status:', response.status); // Log the response status
-        //   const data = await response.json();
-        //   console.log('Response data:', data); // Log the response data
-
-        //   if (!response.ok) {
-        //     throw new Error(`Error: ${response.statusText}`);
-        //   }
-
-        //   alert('Item updated successfully');
-        //   // Optionally, update the list of items
-        //   getEmployeData();
-        // } catch (error) {
-        //   console.error('There was a problem with the fetch operation:', error);
-        //   alert('There was a problem updating the item: ' + error.message);
-        // }
         const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/employe/update/${editElementId}`, {
             method: 'PUT',
             headers: {
@@ -108,10 +86,11 @@ export default function ManageEmploye() {
         console.log('Response data:', data); // Log the response data
 
         if (!response.ok) {
+            showToastMessage("error", response.statusText);
             throw new Error(`Error: ${response.statusText}`);
         }
 
-        alert('Item updated successfully');
+        showToastMessage('success', 'Employee Updated Sucessfully')
         // Optionally, update the list of items
         getEmployeData();
     };
@@ -161,17 +140,18 @@ export default function ManageEmploye() {
                 });
 
                 if (!response.ok) {
+                    showToastMessage("error", response.statusText);
                     throw new Error(`Error: ${response.statusText}`);
                 }
 
                 const data = await response.json();
                 console.log(data);
                 console.log(id);
-
+                showToastMessage('success', 'Employee deleted Sucessfully')
                 getEmployeData();
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
-                alert('There was a problem deleting the item: ' + error.message);
+                showToastMessage("error", 'There was a problem deleting the item: ' + error.message);
             }
         }
 

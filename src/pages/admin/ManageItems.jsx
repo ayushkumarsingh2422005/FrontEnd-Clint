@@ -3,6 +3,7 @@ import AdminNev from '../../components/AdminNev'
 import { FaEdit, FaPen } from 'react-icons/fa'
 import { MdAdd, MdDelete, MdEdit } from 'react-icons/md'
 import { FaXmark } from 'react-icons/fa6'
+import showToastMessage from '../../utils/toast_message'
 
 export default function ManageItems() {
   const [addItemState, setAddItemState] = useState(false);
@@ -16,6 +17,7 @@ export default function ManageItems() {
   const [zomatoHalfPrice, setZomatoHalfPrice] = useState("");
   const [editElementId, setEditElementId] = useState();
   const [allItemData, setAllItemData] = useState();
+  const [allItemCount, setAllItemCount] = useState();
   const [editMode, setEditMode] = useState(false);
 
 
@@ -62,12 +64,13 @@ export default function ManageItems() {
     });
 
     if (!response.ok) {
+      showToastMessage("error", response.statusText);
       throw new Error(`Error: ${response.statusText}`);
     }
 
     const data = await response.json();
     console.log(data);
-    alert('Item added successfully');
+    showToastMessage('success', 'Item Added Sucessfully')
     // Optionally, update the list of items
     getItemFromStore();
   };
@@ -121,10 +124,12 @@ export default function ManageItems() {
     console.log('Response data:', data); // Log the response data
 
     if (!response.ok) {
+      showToastMessage("error", response.statusText);
       throw new Error(`Error: ${response.statusText}`);
     }
 
-    alert('Item updated successfully');
+    // alert('Item updated successfully');
+    showToastMessage('success', 'Item Updated Sucessfully')
     // Optionally, update the list of items
     getItemFromStore();
   };
@@ -153,6 +158,7 @@ export default function ManageItems() {
     setAddItemState(!addItemState);
     console.log(ele);
   }
+
   const getItemFromStore = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/dishes/getall`);
@@ -164,9 +170,11 @@ export default function ManageItems() {
       const data = await response.json();
       console.log(data);
       setAllItemData(data);
+      showToastMessage('success', 'Item List Updated')
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      alert('There was a problem retrieving the items: ' + error.message);
+      // console.error('There was a problem with the fetch operation:', error);
+      // alert('There was a problem retrieving the items: ' + error.message);
+      showToastMessage("error", 'There was a problem retrieving the items: ' + error.message);
     }
   };
 
@@ -179,23 +187,44 @@ export default function ManageItems() {
       });
 
       if (!response.ok) {
+        showToastMessage("error", response.statusText);
         throw new Error(`Error: ${response.statusText}`);
       }
 
       const data = await response.json();
       console.log(data);
       console.log(id);
-
+      showToastMessage('success', 'Item Deleted Sucessfully')
       getItemFromStore();
     } catch (error) {
-      console.error('There was a problem with the fetch operation:', error);
-      alert('There was a problem deleting the item: ' + error.message);
+      // console.error('There was a problem with the fetch operation:', error);
+      // alert('There was a problem deleting the item: ' + error.message);
+      showToastMessage("error", 'There was a problem deleting the item: ' + error.messaget);
     }
   };
 
+  const getItemInfo = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_URL}/api/dishes/order-count`);
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      // console.log(data);
+      setAllItemCount(data);
+      showToastMessage('success', 'Sell report ready')
+    } catch (error) {
+      // console.error('There was a problem with the fetch operation:', error);
+      // alert('There was a problem retrieving the items: ' + error.message);
+      showToastMessage("error", 'There was a problem retrieving the items: ' + error.message);
+    }
+  };
 
   useEffect(() => {
     getItemFromStore();
+    getItemInfo();
   }, []);
   return (
     <>
@@ -214,7 +243,7 @@ export default function ManageItems() {
             <div className="flex flex-wrap mt-6">
               <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
                 <p className="text-xl pb-3 flex items-center">
-                  <i className="fas fa-plus mr-3"></i> Monthly Reports
+                  <i className="fas fa-plus mr-3"></i> Reports
                 </p>
                 <div className="p-6 bg-white">
                   <b>Total Item In store</b> : {allItemData && allItemData.length}
@@ -222,10 +251,27 @@ export default function ManageItems() {
               </div>
               <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                 <p className="text-xl pb-3 flex items-center">
-                  <i className="fas fa-check mr-3"></i> Resolved Reports
+                  <i className="fas fa-check mr-3"></i> Sells Report
                 </p>
                 <div className="p-6 bg-white">
-                  <canvas id="chartTwo" width="400" height="200"></canvas>
+                  <table className="min-w-full bg-white">
+                    <thead className="bg-gray-800 text-white">
+                      <tr>
+                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">ID</th>
+                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
+                        <th className="text-left py-3 px-4 uppercase font-semibold text-sm">Count</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-700 max-h-[30vh]">
+                      {allItemCount && allItemCount.map((item, index) => (
+                        <tr key={item.dishId}>
+                          <td className="text-left py-3 px-4">{item.dishId}</td>
+                          <td className="text-left py-3 px-4">{item.name}</td>
+                          <td className="text-left py-3 px-4">{item.times_ordered}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
