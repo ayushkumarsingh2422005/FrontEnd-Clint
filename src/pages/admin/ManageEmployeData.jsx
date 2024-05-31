@@ -4,9 +4,11 @@ import { MdAdd } from 'react-icons/md'
 import { FaXmark } from 'react-icons/fa6'
 import MonthCalander from '../../components/MonthCalander';
 import showToastMessage from '../../utils/toast_message';
+import { FaCalendar } from 'react-icons/fa';
 
 
 export default function ManageEmployeData() {
+    const DTNOW = new Date();
     const [amountState, setAmountState] = useState(false);
     const [paidAmount, setPaidAmount] = useState("");
     const [pendingAmout, setPendingAmout] = useState("");
@@ -14,6 +16,22 @@ export default function ManageEmployeData() {
     const [editElementId, setEditElementId] = useState();
     const [allEmployeData, setAllEmployeData] = useState();
     const [editMode, setEditMode] = useState(false);
+
+    const markMyAttendnce = (id) => {
+        fetch(`${import.meta.env.VITE_APP_URL}/api/employe-data/attendence/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: 'your_id_value' })
+        })
+            .then(response => response.json())
+            .then(data => {
+                getEmployeData();
+                showToastMessage("success", 'Attendence Done');
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
     const updateItemFromStore = async () => {
         console.log(editElementId)
@@ -43,7 +61,7 @@ export default function ManageEmployeData() {
         }
 
         // alert('Item updated successfully');
-        showToastMessage('success', 'Salery Updated of Employee ID '+editElementId)
+        showToastMessage('success', 'Salery Updated of Employee ID ' + editElementId)
         // Optionally, update the list of items
         getEmployeData();
     };
@@ -118,7 +136,9 @@ export default function ManageEmployeData() {
                                             <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">ID</th>
                                             <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
                                             <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Attendence</th>
-                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">SAllary</th>
+                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Mark {DTNOW.getDate()}/{DTNOW.getMonth() + 1}</th>
+                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Transictions</th>
+                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Total Sum</th>
                                             <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Edit Sallery</th>
                                         </tr>
                                     </thead>
@@ -128,14 +148,25 @@ export default function ManageEmployeData() {
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">{employe.employeId}</td>
                                                 <td className="w-1/3 text-left py-3 px-4">{employe.name}</td>
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
-                                                    <MonthCalander dateData={employe.attendence} />
+                                                    {/* <MonthCalander dateData={employe.attendence} /> */}
+                                                    {employe.attendence.join(", ")}
+                                                </td>
+                                                <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
+                                                    <div onClick={() => {
+                                                        markMyAttendnce(employe.employeId);
+                                                    }} className='cursor-pointer text-green-500 hover:text-green-600 flex items-center'>
+                                                        <FaCalendar /> &nbsp; {DTNOW.getDate()}/{DTNOW.getMonth() + 1}
+                                                    </div>
                                                 </td>
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
                                                     <ul>
                                                         {Object.entries(employe.salery).map(([key, value]) => (
-                                                            <li key={key}>{key}: {value}</li>
+                                                            <li key={key}>{{"adv":"Advance","pen":"Penality","paid":"Salery"}[key]}: {value}</li>
                                                         ))}
                                                     </ul>
+                                                </td>
+                                                <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
+                                                {employe.salery.paid - employe.salery.adv - employe.salery.pen}
                                                 </td>
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
                                                     <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400' onClick={() => {
@@ -168,15 +199,15 @@ export default function ManageEmployeData() {
                         <form className="max-w-md mx-auto rounded border border-black p-5 container overflow-x-scroll">
                             <div className="relative z-0 w-full mb-5 group">
                                 <input type="number" id="floating_paid" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required value={paidAmount || ""} onChange={(e) => setPaidAmount(e.target.value)} />
-                                <label htmlFor="floating_paid" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">PAID</label>
+                                <label htmlFor="floating_paid" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Sallery</label>
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
                                 <input type="number" id='floating_pending' className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value={pendingAmout || ""} required onChange={(e) => setPendingAmout(e.target.value)} />
-                                <label htmlFor="floating_pending" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">PENDING</label>
+                                <label htmlFor="floating_pending" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Penality</label>
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
                                 <input type="number" id='floating_adv' className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " value={advAmount || ""} required onChange={(e) => setAdvAmount(e.target.value)} />
-                                <label htmlFor="floating_adv" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">ADV</label>
+                                <label htmlFor="floating_adv" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Advance</label>
                             </div>
 
                             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={updateItemFromStore}>UPDATE</button>

@@ -28,7 +28,7 @@ function MonthCalander({ dateData }) {
         <div>
             <Calendar
                 onChange={onChange}
-                value={date}
+                // value={date}
                 tileClassName={tileClassName}
             />
         </div>

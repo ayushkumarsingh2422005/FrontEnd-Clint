@@ -13,6 +13,10 @@ import EmpDashbord from './pages/employee/EmpHome/EmpDashbord'
 import EmpMangeOrder from './pages/employee/EmpMangeOrder'
 import ManageEmployeData from './pages/admin/ManageEmployeData'
 import AttendenceView from './pages/AttendenceView'
+import OrderDetail from './pages/admin/OrderDetail'
+import RecieptHandler from './pages/admin/RecieptHandler'
+import Remark from './pages/admin/Remark'
+import Sales from './pages/admin/Sales'
 // import EmpDashbord from './pages/employee/EmpDashbord'
 function App() {
   return (
@@ -31,10 +35,14 @@ function App() {
             <Route path='' element={<Dashbord />} />
             <Route path='login' element={<AdminLogin />} />
             <Route path='manage-items' element={<ManageItems />} />
-            <Route path='manage-orders' element={<ManageOrders />} />
+            <Route path='kot' element={<ManageOrders />} />
             <Route path='manage-employe' element={<ManageEmploye />} />
             <Route path='employe-data' element={<ManageEmployeData />} />
-            <Route path='invoice/:id' element={<Invoice />} />
+            <Route path='receipt' element={<RecieptHandler />} />
+            <Route path='invoice/:id/:discount' element={<Invoice />} />
+            <Route path='order/:id' element={<OrderDetail />} />
+            <Route path='remarks' element={<Remark />} />
+            <Route path='sales' element={<Sales />} />
           </Route>
           <Route path='*' element={<PageNotFound />} />
         </Routes>

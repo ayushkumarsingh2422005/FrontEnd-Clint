@@ -4,19 +4,19 @@ import EmployeeNev from '../../../components/EmployeeNev'
 import './EmpDashbord.css'
 import { FaCalendarPlus } from 'react-icons/fa'
 export default function EmpDashbord() {
-  const DTNOW = new Date();
-  const markMyAttendnce = () => {
-    fetch(`${import.meta.env.VITE_APP_URL}/api/employe-data/attendence/${JSON.parse(localStorage.getItem('credentials')).id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id: 'your_id_value' })
-    })
-      .then(response => response.json())
-      .then(data =>null)
-      .catch(error => console.error('Error:', error));
-  }
+  // const DTNOW = new Date();
+  // const markMyAttendnce = () => {
+  //   fetch(`${import.meta.env.VITE_APP_URL}/api/employe-data/attendence/${JSON.parse(localStorage.getItem('credentials')).id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({ id: 'your_id_value' })
+  //   })
+  //     .then(response => response.json())
+  //     .then(data =>null)
+  //     .catch(error => console.error('Error:', error));
+  // }
   return (
     <>
       <div className="bg-gray-100 font-family-karla flex sm:flex-row flex-col">
@@ -25,9 +25,6 @@ export default function EmpDashbord() {
         <div className="w-full overflow-x-hidden border-t flex flex-col h-[100vh]">
           <main className="w-full flex-grow p-6">
             <h1 className="text-3xl text-black pb-6">Dashboard</h1>
-            <div className='flex w-full items-center justify-center bg-green-400 p-3 rounded text-2xl text-green-950 cursor-pointer hover:bg-green-500' onClick={markMyAttendnce}>
-              <FaCalendarPlus /> &nbsp; Attend {DTNOW.getDate()}/{DTNOW.getMonth() + 1}
-            </div>
             <div className="flex flex-wrap mt-6">
               <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
                 <p className="text-xl pb-3 flex items-center">
