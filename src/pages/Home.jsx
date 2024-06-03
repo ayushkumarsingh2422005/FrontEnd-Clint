@@ -180,14 +180,13 @@ export default function Home() {
                   className="block w-full outline-none p-2 mt-1 focus:border-secondary"
                   name="item-id"
                   id="item-id"
-                  value={orderItem.itemID}
                   onChange={(e) => {
-                    const selectedDish = dishes.find(dish => dish.dishId === e.value); // Ensure `e.value` is correct for your Select component
-                    setOrderItem((prev) => ({
+                    const selectedDish = dishes.find(dish => dish.dishId === e.value); 
+                    setOrderItem((prev)=>({
                       ...prev,
                       itemID: e.value,
-                      itemName: selectedDish ? selectedDish.name : '',
-                      price: selectedDish ? (orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price) : ''
+                      itemName: selectedDish.name,
+                      price: orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price,
                     }));
                   }}
                   options={dishes.map((item) => ({
@@ -195,14 +194,6 @@ export default function Home() {
                     label: `${item.name} - ₹${item.restaurant_half_price} / ${item.restaurant_full_price}`
                   }))}
                 />
-
-                {/* <Select.Option value="" disabled>Select an item</Select.Option>
-                {dishes.map((item) => (
-                  <Select.Option value={item.dishId} key={item.dishId}>
-                    {item.name} - ₹{item.restaurant_half_price} / {item.restaurant_full_price}
-                  </Select.Option>
-                ))} */}
-                {/* </Select> */}
               </div>
 
               <div className="mb-2">
