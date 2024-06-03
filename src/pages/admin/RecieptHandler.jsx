@@ -131,7 +131,8 @@ export default function RecieptHandler() {
                         <td className="text-left py-3 px-4 ">
                           {/* <Link to={`/admin/invoice/${order.orderId}/${discoutVal}`} > */}
                           <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400' onClick={(e) => {
-                            let dis = e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.childNodes[0].value || 0;
+                            let dis = e.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.childNodes[0].value || "0";
+                            console.log(dis)
                             dis = dis.charAt(dis.length-1) == '%' ? order.total_bill*(100 - dis.slice(0, dis.length-1))/100 : order.total_bill - dis
                             navigate(`/admin/invoice/${order.orderId}/${dis}`);
                           }}>invoice</span>

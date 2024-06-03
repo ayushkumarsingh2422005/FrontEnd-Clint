@@ -17,6 +17,7 @@ import OrderDetail from './pages/admin/OrderDetail'
 import RecieptHandler from './pages/admin/RecieptHandler'
 import Remark from './pages/admin/Remark'
 import Sales from './pages/admin/Sales'
+import Purchase from './pages/admin/Purchase'
 // import EmpDashbord from './pages/employee/EmpDashbord'
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
             <Route path='order/:id' element={<OrderDetail />} />
             <Route path='remarks' element={<Remark />} />
             <Route path='sales' element={<Sales />} />
+            <Route path='purchase' element={<Purchase />} />
           </Route>
           <Route path='*' element={<PageNotFound />} />
         </Routes>

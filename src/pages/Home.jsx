@@ -1,4 +1,4 @@
-import { createContext, useEffect, useId, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import getAlldishes from "../utils/get_dishes";
 import Appbar from "../components/Appbar";
 import Sidebar from "../components/Sidebar";
@@ -6,14 +6,15 @@ import UserInfo from "../components/UserInfo";
 import { ToastContainer } from "react-toastify";
 import showToastMessage from "../utils/toast_message";
 import employeeLogin from "../utils/employee_login";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Bill from "../components/Bill";
+import Select from 'react-select';
 
 export const orderContext = createContext();
 
 export default function Home() {
   const [showSideNav, setShowSideNav] = useState(false);
-  const [bill,setBill] = useState(null);
+  const [bill, setBill] = useState(null);
   const [userInfo, setUserInfo] = useState({ name: '', number: '', table: '' });
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [orderItem, setOrderItem] = useState({
@@ -26,7 +27,7 @@ export default function Home() {
   });
   const [dishes, setDishes] = useState([]);
   const [orders, setOrders] = useState([]);
-  const [KOT,setKOT] = useState(null);
+  const [KOT, setKOT] = useState(null);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function Home() {
     const parsedKot = JSON.parse(existingkot);
     setKOT(parsedKot);
 
-      checkForUser();
+    checkForUser();
   }, []);
 
   const getUser = async () => {
@@ -114,113 +115,121 @@ export default function Home() {
     });
   };
 
-  
-  const checkForUser = async()=>{
+
+  const checkForUser = async () => {
     try {
-        let cred = localStorage.getItem('credentials');
-        if (cred){
-            const resp = await employeeLogin(JSON.parse(cred));
-            if (resp === false){
-                navigate('/login');
-                localStorage.removeItem('credentials');
-            }
-        }else{
+      let cred = localStorage.getItem('credentials');
+      if (cred) {
+        const resp = await employeeLogin(JSON.parse(cred));
+        if (resp === false) {
           navigate('/login');
+          localStorage.removeItem('credentials');
         }
+      } else {
+        navigate('/login');
+      }
     } catch (error) {
       console.log(error);
-        showToastMessage('error','Something went wrong');
+      showToastMessage('error', 'Something went wrong');
     }
 
-}
+  }
 
-  const getBill = async(orderId)=>{
-      const resp = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/get/${orderId}`);
-      const data = await resp.json();
-      console.log(data.items_desc[0].prize);
-      setBill(data);
-    }
+  const getBill = async (orderId) => {
+    const resp = await fetch(`${import.meta.env.VITE_APP_URL}/api/orders/get/${orderId}`);
+    const data = await resp.json();
+    console.log(data.items_desc[0].prize);
+    setBill(data);
+  }
   return (
     <main className="min-h-screen max-w-screen overflow-hidden">
       <ToastContainer className='w-4/5 mx-auto mt-16' />
-      <orderContext.Provider value={{ Bill:[bill,setBill], Visible: [showSideNav, setShowSideNav], Orders: [orders, setOrders], user: [setUserInfo, userInfo, errors, onInfoSubmit] , kot:[KOT,setKOT]}}>
+      <orderContext.Provider value={{ Bill: [bill, setBill], Visible: [showSideNav, setShowSideNav], Orders: [orders, setOrders], user: [setUserInfo, userInfo, errors, onInfoSubmit], kot: [KOT, setKOT] }}>
         <Appbar />
         {showInfoModal ? (
           <UserInfo />
         ) : (
           <>
-          {bill &&
-          <Bill/>
-          }
-         {KOT && KOT.length > 0 && (
-                <div className="bg-gray-100 w-3/4 mx-auto p-6 mt-4">
-                    <p>Your Order(s) is/are arriving soon</p>
-                    <ul className="w-full">
-                        {KOT.map((orderId, index) => (
-                            <li key={index} className="flex justify-between py-1">
-                                <p className="text-secondary font-bold">Order ID: #{orderId}</p>
-                                <button className="text-blue-600" onClick={()=>getBill(orderId)}>view</button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+            {bill &&
+              <Bill />
+            }
+            {KOT && KOT.length > 0 && (
+              <div className="bg-gray-100 w-3/4 mx-auto p-6 mt-4">
+                <p>Your Order(s) is/are arriving soon</p>
+                <ul className="w-full">
+                  {KOT.map((orderId, index) => (
+                    <li key={index} className="flex justify-between py-1">
+                      <p className="text-secondary font-bold">Order ID: #{orderId} / Table : {JSON.parse(localStorage.getItem('user'))['table']}</p>
+                      <div>
+                        <button className="text-blue-600" onClick={() => getBill(orderId)}>view</button> |
+                        <Link to='/' className="text-blue-600"> reciept </Link>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
-          <form className="bg-gray-100 w-3/4 mx-auto p-12 mt-4" onSubmit={onOrderSubmit}>
-            <div className="mb-2">
-              <label htmlFor="table">Table number</label>
-              <input className="w-full block border p-2 bg-gray-50 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="table" id="table" value={userInfo.table} disabled />
-            </div>
-            <div className="mb-2">
-              <label htmlFor="item-id">Item</label>
-              <select
-                className="block w-full outline-none p-2 mt-1 focus:border-secondary"
-                name="item-id"
-                id="item-id"
-                value={orderItem.itemID}
-                onChange={(e) => {
-                  const selectedDish = dishes.find(dish => dish.dishId === e.target.value);
-                  setOrderItem((prev) => ({
-                    ...prev,
-                    itemID: e.target.value,
-                    itemName: selectedDish ? selectedDish.name : '',
-                    price: selectedDish ? (orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price) : ''
-                  }));
-                }}
-              >
-                <option value="" disabled>Select an item</option>
-                {dishes.map((item) => (
-                  <option value={item.dishId} key={item.dishId}>
-                    {item.name} - ₹{item.restaurant_half_price} / {item.restaurant_full_price}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <form className="bg-gray-100 w-3/4 mx-auto p-12 mt-4" onSubmit={onOrderSubmit}>
+              <div className="mb-2">
+                <label htmlFor="table">Table number</label>
+                <input className="w-full block border p-2 bg-gray-50 mt-1 outline-none focus:border-secondary rounded-sm transition-all" type="text" name="table" id="table" value={userInfo.table} disabled />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="item-id">Item</label>
+                <Select
+                  className="block w-full outline-none p-2 mt-1 focus:border-secondary"
+                  name="item-id"
+                  id="item-id"
+                  value={orderItem.itemID}
+                  onChange={(e) => {
+                    const selectedDish = dishes.find(dish => dish.dishId === e.value); // Ensure `e.value` is correct for your Select component
+                    setOrderItem((prev) => ({
+                      ...prev,
+                      itemID: e.value,
+                      itemName: selectedDish ? selectedDish.name : '',
+                      price: selectedDish ? (orderItem.plate === 'half' ? selectedDish.restaurant_half_price : selectedDish.restaurant_full_price) : ''
+                    }));
+                  }}
+                  options={dishes.map((item) => ({
+                    value: item.dishId,
+                    label: `${item.name} - ₹${item.restaurant_half_price} / ${item.restaurant_full_price}`
+                  }))}
+                />
 
-            <div className="mb-2">
-              <label htmlFor="quantity">Quantity</label>
-              <input
-                className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all"
-                type="number"
-                name="quantity"
-                id="quantity"
-                onChange={(e) => setOrderItem((prev) => ({ ...prev, quantity: e.target.value }))}
-                value={orderItem.quantity}
-                min="1"
-              />
-            </div>
-            <div className="mb-8">
-              <label htmlFor="plate">Plate</label>
-              <select className="block w-full outline-none p-2 mt-1 focus:border-secondary" name="plate" id="plate" value={orderItem.plate} onChange={(e) => setOrderItem((prev) => ({ ...prev, plate: e.target.value }))}>
-                <option value="" disabled>Select an item</option>
-                <option value="half">Half Plate</option>
-                <option value="full">Full Plate</option>
-              </select>
-            </div>
-            <div className="mb-2">
-              <button className="p-2 bg-blue-500 hover:bg-blue-700 w-full text-white" type="submit">Add</button>
-            </div>
-          </form>
-        </>
+                {/* <Select.Option value="" disabled>Select an item</Select.Option>
+                {dishes.map((item) => (
+                  <Select.Option value={item.dishId} key={item.dishId}>
+                    {item.name} - ₹{item.restaurant_half_price} / {item.restaurant_full_price}
+                  </Select.Option>
+                ))} */}
+                {/* </Select> */}
+              </div>
+
+              <div className="mb-2">
+                <label htmlFor="quantity">Quantity</label>
+                <input
+                  className="w-full block border p-2 mt-1 outline-none focus:border-secondary rounded-sm transition-all"
+                  type="number"
+                  name="quantity"
+                  id="quantity"
+                  onChange={(e) => setOrderItem((prev) => ({ ...prev, quantity: e.target.value }))}
+                  value={orderItem.quantity}
+                  min="1"
+                />
+              </div>
+              <div className="mb-8">
+                <label htmlFor="plate">Plate</label>
+                <select className="block w-full outline-none p-2 mt-1 focus:border-secondary" name="plate" id="plate" value={orderItem.plate} onChange={(e) => setOrderItem((prev) => ({ ...prev, plate: e.target.value }))}>
+                  <option value="" disabled>Select an item</option>
+                  <option value="half">Half Plate</option>
+                  <option value="full">Full Plate</option>
+                </select>
+              </div>
+              <div className="mb-2">
+                <button className="p-2 bg-blue-500 hover:bg-blue-700 w-full text-white" type="submit">Add</button>
+              </div>
+            </form>
+          </>
         )}
         <Sidebar />
       </orderContext.Provider>

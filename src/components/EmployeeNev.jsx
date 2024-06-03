@@ -25,7 +25,7 @@ export default function EmployeeNev() {
                         <FaUtensils /> &nbsp; Orders
                     </Link>
                     <Link to={"/employee/attendence/" + JSON.parse(localStorage.getItem('credentials')).id} className={location.pathname == '/employee/attendence' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaCalendarCheck /> &nbsp; Attendence
+                        <FaCalendarCheck /> &nbsp; Attendance
                     </Link>
 
                     <div className="p-6">
@@ -40,7 +40,7 @@ export default function EmployeeNev() {
 
             <header className="w-full bg-sidebar py-5 px-6 sm:hidden block sticky top-0">
                 <div className="flex items-center justify-between">
-                    <Link to="/" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Employe</Link>
+                    <Link to="/" className="text-white text-3xl font-semibold uppercase hover:text-gray-300">Employee</Link>
                     <button className="text-white text-3xl focus:outline-none" onClick={() => setIsOpen(!isOpen)}>
                         {/* @click="isOpen = !isOpen" */}
                         {!isOpen && <FaBars />}
@@ -57,7 +57,7 @@ export default function EmployeeNev() {
                         <FaUtensils /> &nbsp; Orders
                     </Link>
                     <Link to={"/employee/attendence/" + JSON.parse(localStorage.getItem('credentials')).id} className={location.pathname == '/employee/attendence' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaCalendarCheck /> &nbsp; Attendence
+                        <FaCalendarCheck /> &nbsp; Attendance
                     </Link>
 
                     <div className="p-6">

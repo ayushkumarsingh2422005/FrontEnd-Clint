@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FaBars, FaBookmark, FaDatabase, FaDollarSign, FaMoneyBill, FaReceipt, FaUtensils, FaWindowClose } from 'react-icons/fa';
-import { FaPeopleGroup, FaPlateWheat } from 'react-icons/fa6';
+import { FaMoneyBill1, FaPeopleGroup, FaPlateWheat } from 'react-icons/fa6';
 import { MdAdd, MdDashboard, MdEmojiPeople, MdLogout } from 'react-icons/md';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import admin_logined from '../utils/admin_logined';
@@ -31,7 +31,7 @@ export default function AdminNev() {
 
                     </Link>
                     <Link to="/admin/receipt" className={location.pathname == '/admin/receipt' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaReceipt /> &nbsp; Reciept
+                        <FaReceipt /> &nbsp; Receipt
 
                     </Link>
                     <Link to="/admin/manage-items" className={location.pathname == '/admin/manage-items' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
@@ -40,13 +40,16 @@ export default function AdminNev() {
                     
                     
                     <Link to="/admin/manage-employe" className={location.pathname == '/admin/manage-employe' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaPeopleGroup /> &nbsp; Employe Details
+                        <FaPeopleGroup /> &nbsp; Employee Details
                     </Link>
                     <Link to="/admin/employe-data" className={location.pathname == '/admin/employe-data' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaDatabase /> &nbsp; Employe Data
+                        <FaDatabase /> &nbsp; Employee Data
                     </Link>
                     <Link to="/admin/sales" className={location.pathname == '/admin/sales' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaDollarSign /> &nbsp; Sales
+                        <FaDollarSign /> &nbsp; Sales History
+                    </Link>
+                    <Link to="/admin/purchase" className={location.pathname == '/admin/purchase' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <FaMoneyBill1 /> &nbsp; Purchase
                     </Link>
                     <Link to="/admin/remarks" className={location.pathname == '/admin/remarks' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaBookmark /> &nbsp; Remarks
@@ -80,22 +83,25 @@ export default function AdminNev() {
                         <FaUtensils /> &nbsp; KOT
                     </Link>
                     <Link to="/admin/receipt" className={location.pathname == '/admin/receipt' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaReceipt /> &nbsp; Reciept
+                        <FaReceipt /> &nbsp; Receipt
                     </Link>
                     <Link to="/admin/manage-items" className={location.pathname == '/admin/manage-items' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <MdAdd /> &nbsp; Item manager
                     </Link>
                     <Link to="/admin/manage-employe" className={location.pathname == '/admin/manage-employe' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaPeopleGroup /> &nbsp; Employe Details
+                        <FaPeopleGroup /> &nbsp; Employee Details
                     </Link>
                     <Link to="/admin/employe-data" className={location.pathname == '/admin/employe-data' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaDatabase /> &nbsp; Employe Data
+                        <FaDatabase /> &nbsp; Employee Data
                     </Link>
                     <Link to="/admin/sales" className={location.pathname == '/admin/sales' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
-                        <FaDollarSign /> &nbsp; Sales
+                        <FaDollarSign /> &nbsp; Sales History
                     </Link>
                     <Link to="/admin/remarks" className={location.pathname == '/admin/remarks' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
                         <FaBookmark /> &nbsp; Remarks
+                    </Link>
+                    <Link to="/admin/purchase" className={location.pathname == '/admin/purchase' ? `flex items-center active-nav-link text-white py-4 pl-6 nav-item` : `flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item`}>
+                        <FaMoneyBill1 /> &nbsp; Purchase
                     </Link>
                     <div className="p-6">
                         <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center" onClick={() => { localStorage.clear(); navigate('/admin/login') }}>

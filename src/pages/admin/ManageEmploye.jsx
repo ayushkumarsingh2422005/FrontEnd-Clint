@@ -204,7 +204,7 @@ export default function ManageEmploye() {
                                         <tr>
                                             <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">ID</th>
                                             <th className="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
-                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Phone NUmber</th>
+                                            <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Phone Number</th>
                                             <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Passward</th>
                                             <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Email</th>
                                             <th className="text-left py-3 px-4 uppercase font-semibold text-sm whitespace-nowrap w-auto">Edit / Del</th>

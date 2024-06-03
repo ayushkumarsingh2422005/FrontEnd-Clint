@@ -5,6 +5,7 @@ import { FaXmark } from 'react-icons/fa6'
 import MonthCalander from '../../components/MonthCalander';
 import showToastMessage from '../../utils/toast_message';
 import { FaCalendar } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 
 export default function ManageEmployeData() {
@@ -149,7 +150,10 @@ export default function ManageEmployeData() {
                                                 <td className="w-1/3 text-left py-3 px-4">{employe.name}</td>
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
                                                     {/* <MonthCalander dateData={employe.attendence} /> */}
-                                                    {employe.attendence.join(", ")}
+                                                    <Link to={`/employee/attendence/${employe.employeId}`}>
+                                                        {employe.attendence && employe.attendence.join(", ")}
+                                                    </Link>
+
                                                 </td>
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
                                                     <div onClick={() => {
@@ -161,12 +165,12 @@ export default function ManageEmployeData() {
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
                                                     <ul>
                                                         {Object.entries(employe.salery).map(([key, value]) => (
-                                                            <li key={key}>{{"adv":"Advance","pen":"Penality","paid":"Salery"}[key]}: {value}</li>
+                                                            <li key={key}>{{ "adv": "Advance", "pen": "Penality", "paid": "Salery" }[key]}: {value}</li>
                                                         ))}
                                                     </ul>
                                                 </td>
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
-                                                {employe.salery.paid - employe.salery.adv - employe.salery.pen}
+                                                    {employe.salery.paid - employe.salery.adv - employe.salery.pen}
                                                 </td>
                                                 <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
                                                     <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400' onClick={() => {

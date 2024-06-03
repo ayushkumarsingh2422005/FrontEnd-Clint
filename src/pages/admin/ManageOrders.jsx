@@ -114,11 +114,12 @@ export default function ManageOrders() {
                           <OrderStatusTooltip status={order.status} id={order.orderId} fun={getOrderFromStore} />
                         </td>
 
-                        <td className="text-left py-3 px-4 ">
+                        <td className="text-left py-3 px-4 whitespace-nowrap w-auto">
                           <Link to={`/admin/order/${order.orderId}`} >
                             <span className='hover:text-blue-500 hover:underline cursor-pointer text-blue-400'>print</span>
                           </Link> &nbsp;
                           <span className='hover:text-red-500 hover:underline cursor-pointer text-red-400' onClick={delOrder}>del</span>
+                          <Link to={`/admin/invoice/${order.orderId}/${order.total_bill}`} className='text-green-500'> invo</Link>
                         </td>
                       </tr>
                     ))}

@@ -50,7 +50,8 @@ export default function Dashbord() {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            const ln = data.filter((d) => d.attendence.includes(date)).length;
+            console.log(data)
+            const ln = data.filter((d) => d.attendence==undefined? false : d.attendence.includes(date)).length;
             setPresentEmployee(ln);
             setTotalEmployee(data.length);
 
@@ -80,12 +81,12 @@ export default function Dashbord() {
                                 </p>
                                 <div className="p-6 bg-white">
                                     Total Sales for date {new Date().toDateString()} : {totalMoney || 0} Rs<br />
-                                    Total Sales for till now : {totalNetMoney || 0} Rs<br />
+                                    Total Sales till now : {totalNetMoney || 0} Rs<br />
                                 </div>
                             </div>
                             <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                                 <p className="text-xl pb-3 flex items-center">
-                                    <i className="fas fa-check mr-3"></i> Employe Reports
+                                    <i className="fas fa-check mr-3"></i> Employee Report
                                 </p>
                                 <div className="p-6 bg-white">
                                     Total : {totalEmployee} <br />
@@ -107,7 +108,7 @@ export default function Dashbord() {
                         <div className="flex flex-wrap mt-6">
                             <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
                                 <p className="text-xl pb-3 flex items-center">
-                                    <i className="fas fa-plus mr-3"></i> Item Reports
+                                    <i className="fas fa-plus mr-3"></i> Item Report
                                 </p>
                                 <div className="p-6 bg-white">
                                     <canvas id="chartOne" width="400" height="200"></canvas>
@@ -115,7 +116,7 @@ export default function Dashbord() {
                             </div>
                             <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                                 <p className="text-xl pb-3 flex items-center">
-                                    <i className="fas fa-check mr-3"></i> Employe Reports
+                                    <i className="fas fa-check mr-3"></i> Employee Report
                                 </p>
                                 <div className="p-6 bg-white">
                                     <canvas id="chartTwo" width="400" height="200"></canvas>

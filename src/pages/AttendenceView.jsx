@@ -66,7 +66,7 @@ export default function AttendenceView() {
                 />
             ))} */}
             {specialDates && Object.entries(specialDates).map(([key, value]) => {
-                return <div key={key} className='p-4 shadow-md rounded-md border border-l-4 border-lime-400 text-2xl'><h1 className='font-bold text-3xl underline'>{key}</h1> <br />&nbsp;&nbsp;{value.join(", ")}</div>;
+                return <div key={key} className='p-4 shadow-md rounded-md border border-l-4 border-lime-400 text-2xl my-4'><h1 className='font-bold text-3xl underline'>{key}</h1> <br />&nbsp;&nbsp;{value.join(", ")}</div>;
             })}
         </div>
     );
