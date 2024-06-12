@@ -10,43 +10,43 @@ export default function EmployeeLogin() {
     const [pass, setPass] = useState('');
     const navigate = useNavigate();
 
-    const onFormSubmit = async (e) =>{
+    const onFormSubmit = async (e) => {
         e.preventDefault();
-        const body = {"id":id,"password":pass};
-       try {
-        const resp = await employeeLogin(body);
-        if (resp === true){
-            showToastMessage('success','Logged in successfully');
-            localStorage.setItem('credentials',JSON.stringify(body));
-            navigate('/home');
-        }else{
-            showToastMessage('error','Invalid credentials');
+        const body = { "id": id, "password": pass };
+        try {
+            const resp = await employeeLogin(body);
+            if (resp === true) {
+                showToastMessage('success', 'Logged in successfully');
+                localStorage.setItem('credentials', JSON.stringify(body));
+                navigate('/home');
+            } else {
+                showToastMessage('error', 'Invalid credentials');
+            }
+        } catch (error) {
+            showToastMessage('error', 'Something went wrong');
         }
-       } catch (error) {
-            showToastMessage('error','Something went wrong');
-       }
     }
 
-    const checkForUser = async()=>{
+    const checkForUser = async () => {
         try {
             let cred = localStorage.getItem('credentials') ?? null;
-            if (cred){
+            if (cred) {
                 const resp = await employeeLogin(JSON.parse(cred));
-                if (resp){
+                if (resp) {
                     navigate('/home');
-                }else{
+                } else {
                     localStorage.removeItem('credentials');
                 }
             }
         } catch (error) {
-            showToastMessage('error','Something went wrong');
+            showToastMessage('error', 'Something went wrong');
         }
 
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         checkForUser();
-    },[])
+    }, [])
 
     return (
         <section className="bg-gray-100 h-[100vh] flex align-middle">

@@ -6,58 +6,39 @@ export default function Login() {
     const [adminId, setAdminId] = useState("");
     const [adminPass, setAdminPass] = useState("");
     const navigate = useNavigate();
-    const loginAction = () => {
-        fetch(`${import.meta.env.VITE_APP_URL}/api/admin/auth`, {
+    const loginAction = async (e) => {
+        e.preventDefault();
+        const res = await fetch(`${import.meta.env.VITE_APP_URL}/api/admin/auth`, {
             method: 'POST',
             headers: {
                 'id': adminId,
                 'pass': adminPass,
                 'Content-Type': 'application/json'
             }
-        }).then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            showToastMessage("error", "AAuthentication Failed");
-            throw new Error('Authentication failed');
-        }).then(data => {
-            console.log(data);
-
-            // Assuming a successful authentication if we reach here
+        })
+        if (res.ok) {
             localStorage.setItem("adminId", adminId);
             localStorage.setItem("adminPass", adminPass);
             navigate('/admin'); // Redirect to /admin
-        }).catch(error => {
-            // console.log('Error:', error);
-            showToastMessage("error", error);
-            // Remain on the same page or handle error appropriately
-        });
+        }
+
     }
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_APP_URL}/api/admin/auth`, {
-            method: 'POST',
-            headers: {
-                'id': localStorage.getItem("adminId") || " ",
-                'pass': localStorage.getItem("adminPass") || " ",
-                'Content-Type': 'application/json'
+        const tryLogin = async () => {
+            const res = await fetch(`${import.meta.env.VITE_APP_URL}/api/admin/auth`, {
+                method: 'POST',
+                headers: {
+                    'id': localStorage.getItem("adminId") || " ",
+                    'pass': localStorage.getItem("adminPass") || " ",
+                    'Content-Type': 'application/json'
+                }
+            })
+            if (res.ok) {
+                navigate('/admin'); // Redirect to /admin
             }
-        }).then(response => {
-            if (response.status === 200) {
-                return response.json();
-            } else if (response.status === 401) {
-                // Handle unauthorized error
-                throw new Error('Unauthorized: Invalid credentials.');
-            } else {
-                // Handle other errors
-                throw new Error(`Authentication failed with status code ${response.status}`);
-            }
-        }).then(data => {
-            console.log(data);
-            // Assuming a successful authentication if we reach here
-            navigate('/admin'); // Redirect to /admin
-        }).catch(error => {
-            console.log(error)
-        });
+
+        }
+        tryLogin();
 
     }, []);
     return (
@@ -72,7 +53,7 @@ export default function Login() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl darkdicarted:text-white">
                             Sign in to your account
                         </h1>
-                        <form className="space-y-4 md:space-y-6">
+                        <form className="space-y-4 md:space-y-6" onSubmit={loginAction}>
                             <div>
                                 <label htmlFor="adminID" className="block mb-2 text-sm font-medium text-gray-900 darkdicarted:text-white">Admin Id</label>
                                 <input type="text" id="adminID" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 darkdicarted:bg-gray-700 darkdicarted:border-gray-600 darkdicarted:placeholder-gray-400 darkdicarted:text-white darkdicarted:focus:ring-blue-500 darkdicarted:focus:border-blue-500" placeholder="admin" required value={adminId} onChange={(e) => setAdminId(e.target.value)} />
@@ -92,7 +73,7 @@ export default function Login() {
                                 </div>
                                 <a href="#" className="text-sm font-medium text-primary-600 hover:underline darkdicarted:text-primary-500">Forgot password?</a>
                             </div><br />
-                            <button className="w-full text-blue-500 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center darkdicarted:bg-primary-600 darkdicarted:hover:bg-primary-700 darkdicarted:focus:ring-primary-800 border-blue-200 border" onClick={loginAction}>Sign in</button>
+                            <button className="w-full text-blue-500 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center darkdicarted:bg-primary-600 darkdicarted:hover:bg-primary-700 darkdicarted:focus:ring-primary-800 border-blue-200 border">Sign in</button>
 
                         </form>
                     </div>
